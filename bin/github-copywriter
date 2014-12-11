@@ -10,9 +10,9 @@ require 'highline/import'
 require 'github_api'
 
 # Auth GitHub
-puts "\tGitHub Credentials"
-u = ask("Username : ") { |q| q.echo = true }
-p = ask("Password : ") { |q| q.echo = "*" }
+puts "Obtaining OAuth2 access_token from github."
+u = ask("GitHub username: ") { |q| q.echo = true }
+p = ask("GitHub password: ") { |q| q.echo = "*" }
 
 github = Github.new basic_auth: "#{u}:#{p}"
 github.oauth.create 'scopes' => ['repo']
