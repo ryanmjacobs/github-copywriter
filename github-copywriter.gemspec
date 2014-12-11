@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Copywriter::VERSION
   spec.authors       = ["Ryan Jacobs"]
   spec.email         = ["ryan.mjacobs@gmail.com"]
-  spec.summary       = %q{Updates your copyrights on GitHub.}
-  spec.description   = %q{}
+  spec.summary       = %q{github-copywriter updates your copyrights... so you don't have to!}
+  spec.description   = %q{github-copywriter scans through your repositories and updates any copyrights it finds.}
   spec.homepage      = "http://ryanmjacobs.github.io/github-copywriter"
   spec.license       = "MIT"
 
