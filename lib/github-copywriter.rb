@@ -9,7 +9,8 @@ module Copywriter
 
     # Get time/date
     time = Time.now
-    CUR_YEAR = time.year
+   #CUR_YEAR = time.year
+    CUR_YEAR = 2015
 
     def login!
         # Grab username and pass
@@ -28,14 +29,13 @@ module Copywriter
     end
 
     ##
-    # Updates copyright using regex.
+    # Updates copyright using regex, then commits it.
     #
     #   input base64 encoded file
-    # returns base64 encoded file
     def update_copyright(base64_input)
         input = Base64.decode64(base64_input)
 
-        input.gsub!(/(Copyright).* \d{4}/, "\\1 #{CUR_YEAR}")
+        input.gsub!(/(Copyright.*)\d{4}/, "\\1#{CUR_YEAR}")
         puts input
 
         # http://mattgreensmith.net/2013/08/08/commit-directly-to-github-via-api-with-octokit/
