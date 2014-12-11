@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'copywriter/version'
+require 'github-copywriter/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "copywriter"
+  spec.name          = "github-copywriter"
   spec.version       = Copywriter::VERSION
   spec.authors       = ["Ryan Jacobs"]
   spec.email         = ["ryan.mjacobs@gmail.com"]
-  spec.summary       = %q{Updates all of your copyrights on GitHub.}
+  spec.summary       = %q{Updates your copyrights on GitHub.}
   spec.description   = %q{}
-  spec.homepage      = "http://ryanmjacobs.github.io/copywriter"
+  spec.homepage      = "http://ryanmjacobs.github.io/github-copywriter"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
