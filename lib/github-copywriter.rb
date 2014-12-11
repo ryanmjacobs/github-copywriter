@@ -42,13 +42,13 @@ module Copywriter
         options = {skip_forks: false}.merge(options)
 
         # Loop through each file in each repo and update the copyright.
-        @client.repositories().each do |repo|
+        @client.repositories().each do |repo_object|
             # Skip forked repositories
             next if options[:skip_forks]
 
             # Get repo info
-            repo       = repo[:full_name]
-            ref        = repo[:default_branch]
+            repo       = repo_object[:full_name]
+            ref        = "heads/#{repo_object[:default_branch]}"
             commit_sha = @client.ref(repo, ref).object.sha
             tree_sha   = @client.commit(repo, commit_sha).commit.tree.sha
 
