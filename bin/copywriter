@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+################################################################################
+# copywriter
+#
+# Maintainer: Ryan Jacobs <ryan.mjacobs@gmail.com
+################################################################################
+
+require 'copywriter'
+require 'highline/import'
+require 'github_api'
+
+# Auth GitHub
+puts "\tGitHub Credentials"
+u = ask("Username : ") { |q| q.echo = true }
+p = ask("Password : ") { |q| q.echo = "*" }
+
+github = Github.new basic_auth: "#{u}:#{p}"
+github.oauth.create 'scopes' => ['repo']
+
+puts github
+fail "error: GitHub was unable to authenticate."
