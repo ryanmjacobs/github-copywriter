@@ -1,3 +1,4 @@
+# Added by bundler
 /.bundle/
 /.yardoc
 /Gemfile.lock
@@ -12,3 +13,7 @@
 *.o
 *.a
 mkmf.log
+
+# Vim
+.*.swp
+.*.swo

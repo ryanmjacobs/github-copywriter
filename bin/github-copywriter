@@ -1,18 +1,10 @@
 #!/usr/bin/env ruby
 ################################################################################
-# copywriter
+# github-copywriter
 #
 # Maintainer: Ryan Jacobs <ryan.mjacobs@gmail.com
 ################################################################################
 
-require 'copywriter'
-require 'highline/import'
-require 'github_api'
+require "github-copywriter"
 
-# Auth GitHub
-puts "Obtaining OAuth2 access_token from github."
-u = ask("GitHub username: ") { |q| q.echo = true }
-p = ask("GitHub password: ") { |q| q.echo = "*" }
-
-github = Github.new basic_auth: "#{u}:#{p}"
-github.oauth.create scopes: ["repo"]
+cw = Copywriter.login!
