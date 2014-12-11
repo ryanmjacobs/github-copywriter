@@ -15,7 +15,4 @@ u = ask("GitHub username: ") { |q| q.echo = true }
 p = ask("GitHub password: ") { |q| q.echo = "*" }
 
 github = Github.new basic_auth: "#{u}:#{p}"
-github.oauth.create 'scopes' => ['repo']
-
-puts github
-fail "error: GitHub was unable to authenticate."
+github.oauth.create scopes: ["repo"]
