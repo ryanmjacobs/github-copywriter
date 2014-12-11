@@ -21,10 +21,6 @@ module Copywriter
         # Auth to GitHub
         @client = Octokit::Client.new(:login => username, :password => password)
 
-        # Get user repos
-        # https://developer.github.com/v3/repos/#list-your-repositories
-        @user_repos = @client.repositories(:user => @client.login)
-
         puts
     end
 
@@ -41,22 +37,38 @@ module Copywriter
         # http://mattgreensmith.net/2013/08/08/commit-directly-to-github-via-api-with-octokit/
     end
 
-    ##
-    # Loop through each file in each repo and update the copyright.
-    def update_all_copyrights
-        @user_repos.each do |repo|
-            repo = repo["full_name"]
-           #ref  = repo["default_branch"]
-            ref  = "HEAD"
+    def update_all_copyrights(options={})
+        # Default options
+        options = {skip_forks: false}.merge(options)
 
+        # Loop through each file in each repo and update the copyright.
+        @client.repositories().each do |repo|
+            # Skip forked repositories
+            next if options[:skip_forks]
+
+            # Get repo info
+            repo       = repo[:full_name]
+            ref        = repo[:default_branch]
+            commit_sha = @client.ref(repo, ref).object.sha
+            tree_sha   = @client.commit(repo, commit_sha).commit.tree.sha
+
+            # Build list of files to update
+            paths = Array.new
+            tree = @client.tree(repo, tree_sha, :recursize => true)[:tree]
+            tree.each do |file|
+                paths << file[:path]
+            end
+
+=begin
             begin
-                readme  = @client.contents(repo, :path => "README.md")["content"]
-                license = @client.contents(repo, :path => "LICENSE")  ["content"]
+                readme  = @client.contents(repo, :path => "README.md")[:content]
+                license = @client.contents(repo, :path => "LICENSE")  [:content]
 
                 update_copyright license
             rescue
                 puts "error"
             end
+=end
         end
     end
 
