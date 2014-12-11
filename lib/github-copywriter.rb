@@ -7,12 +7,15 @@ module Copywriter
 
     VERSION = "0.0.1"
 
+    # Get time/date
+    time = Time.now
+    CUR_YEAR = time.year
+
     def login!
         # Grab username and pass
         puts "Obtaining OAuth2 access_token from github."
         username = ask("GitHub username: ") { |q| q.echo = true }
         password = ask("GitHub password: ") { |q| q.echo = "*" }
-        puts
 
         # Auth to GitHub
         @client = Octokit::Client.new(:login => username, :password => password)
@@ -20,6 +23,8 @@ module Copywriter
         # Get user repos
         # https://developer.github.com/v3/repos/#list-your-repositories
         @user_repos = @client.repositories(:user => @client.login)
+
+        puts
     end
 
     ##
@@ -29,7 +34,11 @@ module Copywriter
     # returns base64 encoded file
     def update_copyright(base64_input)
         input = Base64.decode64(base64_input)
+
+        input.gsub!(/(Copyright).* \d{4}/, "\\1 #{CUR_YEAR}")
         puts input
+
+        # http://mattgreensmith.net/2013/08/08/commit-directly-to-github-via-api-with-octokit/
     end
 
     ##
@@ -37,7 +46,17 @@ module Copywriter
     def update_all_copyrights
         @user_repos.each do |repo|
             repo = repo["full_name"]
-            ref  = repo["default_branch"]
+           #ref  = repo["default_branch"]
+            ref  = "HEAD"
+
+            begin
+                readme  = @client.contents(repo, :path => "README.md")["content"]
+                license = @client.contents(repo, :path => "LICENSE")  ["content"]
+
+                update_copyright license
+            rescue
+                puts "error"
+            end
         end
     end
 

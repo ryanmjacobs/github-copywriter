@@ -7,4 +7,5 @@
 
 require "github-copywriter"
 
-cw = Copywriter.login!
+Copywriter.login!
+Copywriter.update_all_copyrights
