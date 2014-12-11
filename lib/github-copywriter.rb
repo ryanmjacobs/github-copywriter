@@ -11,9 +11,15 @@ module Copywriter
         puts "Obtaining OAuth2 access_token from github."
         username = ask("GitHub username: ") { |q| q.echo = true }
         password = ask("GitHub password: ") { |q| q.echo = "*" }
+        puts
 
         # Auth to GitHub
         @client = Octokit::Client.new(:login => username, :password => password)
-        @user   = @client.user
+
+        # Get user repos
+        # https://developer.github.com/v3/repos/#list-your-repositories
+        @user_repos = @client.repositories(:user => @client.login)
     end
+
+    attr_reader :client
 end
