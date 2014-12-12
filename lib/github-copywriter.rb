@@ -83,7 +83,7 @@ module Copywriter
 
         # Commit update file to repo
         file_mode  = "100644"
-        commit_msg = "Update copyright. ♥ github-copywriter"
+        commit_msg = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
         commit_to_repo(repo, ref, file_mode, file_path, content, commit_msg)
         puts "#{repo}: #{file_path} is now up-to-date!"
     end
