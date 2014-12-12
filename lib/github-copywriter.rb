@@ -81,23 +81,22 @@ module Copywriter
         # Only commit if we need to
         if content != old_content
             commit_msg = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
-            commit_to_repo(repo, ref, "100644", file_path, content, commit_msg)
+            commit_files(repo, ref, "100644", file_path, content, commit_msg)
         end
 
         puts "#{repo}: #{file_path} is up-to-date."
     end
 
     ##
-    # Commits a file to a GitHub repo.
+    # Commits files to a GitHub repo.
     #
     # repo         = Repo to commit to,      e.g. "user/repo_name"
     # ref          = Branch to commit to,    e.g. "heads/master"
     # file_mode    = Filemode on repo,       e.g. "100644"
-    # file_path    = File path on repo,      e.g. "readme", "src/file.rb", etc.
-    # file_content = File content to commit, e.g. "readme", "src/file.rb", etc.
+    # files        = Array of {:path, :content}
     # commit_msg   = Commit message,         e.g. "Update file.rb"
     #
-    def commit_to_repo(repo, ref, file_mode, file_path, file_content, commit_msg)
+    def commit_files(repo, ref, file_mode, files, commit_msg)
 
         # Force file_mode to be either 100644 or 100775
         if file_mode != "100644" or file_mode != "100775" then
@@ -163,5 +162,5 @@ module Copywriter
         end
     end
 
-    private :update_copyright, :accepted_name?, :commit_to_repo
+    private :update_copyright, :accepted_name?, :commit_files
 end
