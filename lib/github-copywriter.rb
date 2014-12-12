@@ -80,9 +80,8 @@ module Copywriter
 
         # Only commit if we need to
         if content != old_content
-            file_mode  = "100644"
             commit_msg = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
-            commit_to_repo(repo, ref, file_mode, file_path, content, commit_msg)
+            commit_to_repo(repo, ref, "100644", file_path, content, commit_msg)
         end
 
         puts "#{repo}: #{file_path} is up-to-date."
