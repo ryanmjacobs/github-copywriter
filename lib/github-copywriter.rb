@@ -35,7 +35,7 @@ module Copywriter
         filename = File.basename(filename)
 
         names      = ["readme", "license"]
-        extensions = [".md", ".txt"]
+        extensions = [".md", ".txt", ".html"]
 
         if names.include?      filename.downcase               then return true end
         if extensions.include? File.extname(filename.downcase) then return true end
