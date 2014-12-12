@@ -121,12 +121,26 @@ module Copywriter
 
     def run!(options={})
         # Default options
-        options = {skip_forks: true}.merge(options)
+        options = {all: false, skip_forks: true}.merge(options)
 
-        # Loop through each repo.
-        @client.repositories().each do |repo|
+        if options[:all]
+            repos = @client.repositories()
+        else
+            repos = []
+            options[:repos].each do |r|
+                name = @client.login+"/"+File.basename(r)
+                if @client.repository? name
+                    repos << @client.repository(name)
+                else
+                    puts "error: repo \"#{name}\" does not exist!"
+                    exit
+                end
+            end
+        end
 
-            # Skip some repos based on options
+        # Loop through each repo
+        repos.each do |repo|
+
             next if options[:skip_forks] and repo[:fork]
 
             # Get repo info

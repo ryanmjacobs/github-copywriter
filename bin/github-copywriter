@@ -25,6 +25,10 @@ Usage: #{executable_name} [repos...]
         options[:all] = true
     end
 
+    opts.on("-s", "--skip-forks", "Don't update forked repositories.") do
+        options[:skip_forks] = true
+    end
+
     opts.on_tail("-h","--help", "Show this message.") do
         puts opts
         exit
@@ -35,6 +39,13 @@ Usage: #{executable_name} [repos...]
         exit
     end
 end.parse!
+
+if ARGV.empty? and not options[:all]
+    puts "error: No repositories supplied!"
+    exit
+end
+
+options[:repos] = ARGV
 
 Copywriter.login!
 Copywriter.run!(options)
