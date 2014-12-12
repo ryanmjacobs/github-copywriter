@@ -80,8 +80,7 @@ module Copywriter
 
         # Only commit if we need to
         if content != old_content
-            commit_msg = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
-            commit_files(repo, ref, "100644", file_path, content, commit_msg)
+            @modified_files << {:path => file_path, :content => content}
         end
 
         puts "#{repo}: #{file_path} is up-to-date."
@@ -161,11 +160,15 @@ module Copywriter
 
             # Update certain files based on name/extension
             @client.tree(repo_name, tree_sha, :recursize => true)[:tree].each do |file|
+                @modified_files = Array.new
                 file_path = file[:path]
 
                 if accepted_name?(file_path) then
                     update_copyright(repo_name, ref, file_path)
                 end
+
+                commit_msg = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
+                commit_files(repo, ref, "100644", @modified_files, commit_msg)
             end
         end
     end
