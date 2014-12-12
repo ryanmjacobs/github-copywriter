@@ -97,6 +97,9 @@ module Copywriter
     #
     def commit_files(repo, ref, file_mode, files, commit_msg)
 
+        # Return if we don't have any files to commit
+        if files.size == 0 then return end
+
         # Force file_mode to be either 100644 or 100775
         if file_mode != "100644" or file_mode != "100775" then
            file_mode = "100644"
@@ -158,18 +161,21 @@ module Copywriter
             commit_sha = @client.ref(repo_name, ref).object.sha
             tree_sha   = @client.commit(repo_name, commit_sha).commit.tree.sha
 
+            # Store updated files until we commit
+            @modified_files = Array.new
+
             # Update certain files based on name/extension
             @client.tree(repo_name, tree_sha, :recursize => true)[:tree].each do |file|
-                @modified_files = Array.new
                 file_path = file[:path]
 
                 if accepted_name?(file_path) then
                     update_copyright(repo_name, ref, file_path)
                 end
-
-                commit_msg = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
-                commit_files(repo, ref, "100644", @modified_files, commit_msg)
             end
+
+            # Commit stored up files
+            commit_msg = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
+            commit_files(repo_name, ref, "100644", @modified_files, commit_msg)
         end
     end
 
