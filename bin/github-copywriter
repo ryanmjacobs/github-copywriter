@@ -6,6 +6,35 @@
 ################################################################################
 
 require "github-copywriter"
+require "optparse"
+
+options = {}
+
+OptionParser.new do |opts|
+    executable_name = File.split($0)[1]
+    opts.banner = <<-EOS
+Updates your copyrights... so you don't have to!
+
+Usage: #{executable_name} [repos...]
+       #{executable_name} --all
+
+    EOS
+
+    opts.on("--all", "Update copyrights on ALL repositories.") do
+        options[:all] = true
+    end
+
+    opts.on_tail("-h","--help", "Show this message.") do
+        puts opts
+        exit
+    end
+
+    opts.on_tail("-v", "--version", "Print the version.") do
+        puts "github-copywriter v#{Copywriter::VERSION}"
+        exit
+    end
+end.parse!
+
 
 Copywriter.login!
-Copywriter.run!
+Copywriter.run!(options)
