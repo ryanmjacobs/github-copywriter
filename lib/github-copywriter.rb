@@ -71,19 +71,21 @@ module Copywriter
         #     (c) 2014
         #     (C) 2014
         #     © 2014
-        content.gsub!(/([Cc]opyright( \([Cc]\)| ©)|\([Cc]\)|©) \d{4}/, "\\1 #{CUR_YEAR}")
-
-        # Skip committing if it's up-to-date already
-        if content == old_content
-            puts "#{repo}: Skipping #{file_path} Already up-to-date!"
-            return
+        begin
+            content.gsub!(/([Cc]opyright( \([Cc]\)| ©)|\([Cc]\)|©) \d{4}/, "\\1 #{CUR_YEAR}")
+        rescue
+            # try w/o "©" symbol if we had errors
+            content.gsub!(/([Cc]opyright( \([Cc]\))|\([Cc]\)) \d{4}/, "\\1 #{CUR_YEAR}")
         end
 
-        # Commit update file to repo
-        file_mode  = "100644"
-        commit_msg = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
-        commit_to_repo(repo, ref, file_mode, file_path, content, commit_msg)
-        puts "#{repo}: #{file_path} is now up-to-date!"
+        # Only commit if we need to
+        if content != old_content
+            file_mode  = "100644"
+            commit_msg = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
+            commit_to_repo(repo, ref, file_mode, file_path, content, commit_msg)
+        end
+
+        puts "#{repo}: #{file_path} is up-to-date."
     end
 
     ##
