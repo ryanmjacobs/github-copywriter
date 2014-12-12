@@ -8,4 +8,4 @@
 require "github-copywriter"
 
 Copywriter.login!
-Copywriter.update_all_copyrights
+Copywriter.run!
