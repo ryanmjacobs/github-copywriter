@@ -121,7 +121,7 @@ module Copywriter
 
     def run!(options={})
         # Default options
-        options = {all: false, skip_forks: true}.merge(options)
+        options = {all: false, skip_forks: false}.merge(options)
 
         if options[:all]
             repos = @client.repositories()
