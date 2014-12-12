@@ -1,3 +1,9 @@
+################################################################################
+# github-copywriter
+#
+# Author: Ryan Jacobs <ryan.mjacobs@gmail.com
+################################################################################
+
 require "highline/import"
 require "octokit"
 require "base64"

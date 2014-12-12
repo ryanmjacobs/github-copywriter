@@ -2,7 +2,7 @@
 ################################################################################
 # github-copywriter
 #
-# Maintainer: Ryan Jacobs <ryan.mjacobs@gmail.com
+# Author: Ryan Jacobs <ryan.mjacobs@gmail.com
 ################################################################################
 
 require "github-copywriter"
