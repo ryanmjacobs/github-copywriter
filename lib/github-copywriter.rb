@@ -57,7 +57,27 @@ module Copywriter
         contents = Base64.decode64(file[:content])
 
         # Do the subsitution
-        contents.gsub!(/(Copyright.*)\d{4}/, "\\1#{CUR_YEAR}")
+        #
+        # Matches:
+        #     Copyright 2014
+        #     copyright 2014
+        #
+        #     Copyright (C) 2014
+        #     copyright (c) 2014
+        #     Copyright © 2014
+        #     copyright © 2014
+        #
+        #     (c) 2014
+        #     (C) 2014
+        #     © 2014
+        old_contents = contents
+        contents.gsub!(/([Cc]opyright( \([Cc]\)| ©)|\([Cc]\)|©) \d{4}/, "\\1#{CUR_YEAR}")
+
+        # Skip commiting if it's up-to-date already
+        if contents == old_contents
+            puts "#{repo}: Skipping #{file_path}. Already up-to-date!"
+            return
+        end
 
         # Commit update file to repo
         file_mode  = "100644"
