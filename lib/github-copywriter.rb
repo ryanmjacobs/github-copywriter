@@ -53,9 +53,13 @@ module Copywriter
         # Grab file from repo
         file = @client.contents(repo, :path => file_path)
         if file[:type] != "file" then raise "Error: #{file_path} on #{repo} is not a file!" end
-        contents = Base64.decode64(file[:content])
 
-        # Do the subsitution
+        # Have to do separate assignments b/c ruby shares strings,
+        # TODO: find a way around this
+        content     = Base64.decode64(file[:content])
+        old_content = Base64.decode64(file[:content])
+
+        # Do the substitution
         #
         # Matches:
         #     Copyright 2014
@@ -69,11 +73,10 @@ module Copywriter
         #     (c) 2014
         #     (C) 2014
         #     © 2014
-        old_contents = contents
-        contents.gsub!(/([Cc]opyright( \([Cc]\)| ©)|\([Cc]\)|©) \d{4}/, "\\1 #{CUR_YEAR}")
+        content.gsub!(/([Cc]opyright( \([Cc]\)| ©)|\([Cc]\)|©) \d{4}/, "\\1 #{CUR_YEAR}")
 
-        # Skip commiting if it's up-to-date already
-        if contents == old_contents
+        # Skip committing if it's up-to-date already
+        if content == old_content
             puts "#{repo}: Skipping #{file_path}. Already up-to-date!"
             return
         end
@@ -81,7 +84,8 @@ module Copywriter
         # Commit update file to repo
         file_mode  = "100644"
         commit_msg = "Update copyright. ♥ github-copywriter"
-        commit_to_repo(repo, ref, file_mode, file_path, contents, commit_msg)
+        commit_to_repo(repo, ref, file_mode, file_path, content, commit_msg)
+        puts "#{repo}: #{file_path} is now up-to-date!"
     end
 
     ##
