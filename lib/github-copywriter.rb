@@ -25,8 +25,6 @@ module Copywriter
 
         # Auth to GitHub
         @client = Octokit::Client.new(:login => username, :password => password)
-
-        puts
     end
 
     ##
@@ -77,7 +75,7 @@ module Copywriter
 
         # Skip committing if it's up-to-date already
         if content == old_content
-            puts "#{repo}: Skipping #{file_path}. Already up-to-date!"
+            puts "#{repo}: Skipping #{file_path} Already up-to-date!"
             return
         end
 
@@ -143,6 +141,7 @@ module Copywriter
 
         # Loop through each repo
         repos.each do |repo|
+            puts
 
             next if options[:skip_forks] and repo[:fork]
 
