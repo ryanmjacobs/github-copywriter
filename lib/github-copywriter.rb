@@ -105,14 +105,21 @@ module Copywriter
 
         sha_latest_commit = @client.ref(repo, ref).object.sha
         sha_base_tree     = @client.commit(repo, sha_latest_commit).commit.tree.sha
+
         blob_sha          = @client.create_blob(repo, Base64.encode64(file_content), "base64")
 
         sha_new_tree = @client.create_tree(repo, 
-            [ { :path => file_path, 
-                :mode => file_mode,
-                :type => "blob", 
-                :sha => blob_sha } ], 
-        {:base_tree => sha_base_tree }).sha
+        {
+          :base_tree => sha_base_tree,
+          :tree => [
+            {
+              :path => file_path,
+              :mode => file_mode,
+              :type => "blob",
+              :sha => blob_sha
+            }
+          ],
+        }).sha
 
         sha_new_commit = @client.create_commit(repo, commit_msg, sha_new_tree, sha_latest_commit).sha
         updated_ref    = @client.update_ref(repo, ref, sha_new_commit)
