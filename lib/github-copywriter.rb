@@ -15,8 +15,7 @@ module Copywriter
 
     # Get time/date
     time = Time.now
-   #CUR_YEAR = time.year
-    CUR_YEAR = 2015
+    CUR_YEAR = time.year
 
     def login!
         # Grab username and pass
@@ -71,7 +70,7 @@ module Copywriter
         #     (C) 2014
         #     © 2014
         old_contents = contents
-        contents.gsub!(/([Cc]opyright( \([Cc]\)| ©)|\([Cc]\)|©) \d{4}/, "\\1#{CUR_YEAR}")
+        contents.gsub!(/([Cc]opyright( \([Cc]\)| ©)|\([Cc]\)|©) \d{4}/, "\\1 #{CUR_YEAR}")
 
         # Skip commiting if it's up-to-date already
         if contents == old_contents
