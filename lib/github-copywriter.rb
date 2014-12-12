@@ -61,7 +61,7 @@ module Copywriter
         puts contents
 
         # Commit update file to repo
-        file_mode  = "10644"
+        file_mode  = "100644"
         commit_msg = "Update copyright to #{CUR_YEAR}. ♥ github-copywriter"
         commit_to_repo(repo, ref, file_mode, file_path, contents, commit_msg)
     end
@@ -78,9 +78,9 @@ module Copywriter
     #
     def commit_to_repo(repo, ref, file_mode, file_path, file_content, commit_msg)
 
-        # Force file_mode to be either 10644 or 10775
-        if file_mode != "10644" or file_mode != "10775" then
-           file_mode = "10644"
+        # Force file_mode to be either 100644 or 100775
+        if file_mode != "100644" or file_mode != "100775" then
+           file_mode = "100644"
         end
 
         sha_latest_commit = @client.ref(repo, ref).object.sha
