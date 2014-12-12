@@ -10,6 +10,7 @@ require "optparse"
 
 options = {}
 
+ARGV << "-h" if ARGV.empty?
 OptionParser.new do |opts|
     executable_name = File.split($0)[1]
     opts.banner = <<-EOS
@@ -34,7 +35,6 @@ Usage: #{executable_name} [repos...]
         exit
     end
 end.parse!
-
 
 Copywriter.login!
 Copywriter.run!(options)
