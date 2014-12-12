@@ -128,7 +128,6 @@ module Copywriter
 
             # Skip some repos based on options
             next if options[:skip_forks] and repo[:fork]
-            next if repo[:name] != "ryans_dotfiles"
 
             # Get repo info
             repo_name  = repo[:full_name]
