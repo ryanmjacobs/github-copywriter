@@ -58,7 +58,6 @@ module Copywriter
 
         # Do the subsitution
         contents.gsub!(/(Copyright.*)\d{4}/, "\\1#{CUR_YEAR}")
-        puts contents
 
         # Commit update file to repo
         file_mode  = "100644"
@@ -96,7 +95,6 @@ module Copywriter
 
         sha_new_commit = @client.create_commit(repo, commit_msg, sha_new_tree, sha_latest_commit).sha
         updated_ref    = @client.update_ref(repo, ref, sha_new_commit)
-        puts update_ref
 
         # http://mattgreensmith.net/2013/08/08/commit-directly-to-github-via-api-with-octokit/
     end
