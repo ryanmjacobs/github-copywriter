@@ -12,3 +12,5 @@ Updates your copyrights... so you don't have to!
 `$ github-copywriter --all --skip-forks`
 
 ### Contributing
+Feel free to [fork](//github.com/ryanmjacobs/github-copywriter) this project
+and add some sweet features.
