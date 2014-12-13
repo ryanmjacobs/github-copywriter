@@ -1,3 +1,6 @@
+# Jekyll build
+_site
+
 # Vim
 .*.swp
 .*.swo

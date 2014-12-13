@@ -1,0 +1,4 @@
+title_tag_text: github-copywriter
+h1_tag_text: github-copywriter
+
+exclude: ["README.md"]
