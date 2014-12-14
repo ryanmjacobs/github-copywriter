@@ -10,8 +10,9 @@ Try best you can to keep the code consistent. The only thing you really
 need to worry about is the indentation. Please set your editor to use 4-space
 indentation.
 
-If I merge any of your pull requests, big or small, I will add you to the list
-of contributors with a small note of what you did. If you want to update it to
+If I merge any of your pull requests, big or small, I will add you to the
+[list of contributors](//raw.githubusercontent.com/ryanmjacobs/github-copywriter/master/CONTRIBUTORS.md)
+with a small note of what you did. If you want to update it to
 include your website and/or email, just submit a PR.
 
 ### Setup
