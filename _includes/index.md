@@ -16,7 +16,7 @@ Updates your copyrights... so you don't have to!
 ---
 
 ## Contributing
-Please submit any issue or feature requests [here](//github.com/ryanmjacobs/github-copywriter/issues).<br>
+Please submit issues or feature requests [here](//github.com/ryanmjacobs/github-copywriter/issues).<br>
 Questions and comments are fine too :)
 
 <br>
