@@ -139,7 +139,7 @@ module Copywriter
             repos = []
             options[:repos].each do |r|
                 name = @client.login+"/"+File.basename(r)
-                if @client.repository? name then
+                if @client.repository?(name) then
                     repos << @client.repository(name)
                 else
                     puts "error: repo \"#{name}\" does not exist!"
