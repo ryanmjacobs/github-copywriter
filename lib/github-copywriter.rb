@@ -13,7 +13,7 @@ require "pp" # debug tool
 module Copywriter
     extend self
 
-    VERSION    = "0.0.2"
+    VERSION    = "0.0.3"
     COMMIT_MSG = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
 
     # Get time/date
@@ -83,10 +83,10 @@ module Copywriter
         #     (C) 2014
         #     © 2014
         begin
-            content.gsub!(/([Cc]opyright( \([Cc]\)| ©)|\([Cc]\)|©) \d{4}/, "\\1 #{CUR_YEAR}")
+            content.gsub!(/([Cc]opyright( \([Cc]\)| ©)?|\([Cc]\)|©) \d{4}/, "\\1 #{CUR_YEAR}")
         rescue
             # try w/o "©" symbol if we had errors
-            content.gsub!(/([Cc]opyright( \([Cc]\))|\([Cc]\)) \d{4}/, "\\1 #{CUR_YEAR}")
+            content.gsub!(/([Cc]opyright( \([Cc]\))?|\([Cc]\)) \d{4}/, "\\1 #{CUR_YEAR}")
         end
 
         # Only commit if we need to
