@@ -80,7 +80,7 @@ module Copywriter
         end
 
         # Only commit if we need to
-        if content != old_content
+        if content != old_content then
             @modified_files << {:path => file_path, :content => content}
         end
 
@@ -133,13 +133,13 @@ module Copywriter
         # Default options
         options = {all: false, skip_forks: false}.merge(options)
 
-        if options[:all]
+        if options[:all] then
             repos = @client.repositories()
         else
             repos = []
             options[:repos].each do |r|
                 name = @client.login+"/"+File.basename(r)
-                if @client.repository? name
+                if @client.repository? name then
                     repos << @client.repository(name)
                 else
                     puts "error: repo \"#{name}\" does not exist!"
@@ -174,7 +174,7 @@ module Copywriter
             end
 
             # Commit stored up files
-            if @modified_files.size > 0
+            if @modified_files.size > 0 then
                 commit_files(repo_name, ref, "100644", @modified_files, COMMIT_MSG)
                 puts "  Commited #{@modified_files.size} files."
             else
