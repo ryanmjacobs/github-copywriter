@@ -13,12 +13,8 @@ require "pp" # debug tool
 module Copywriter
     extend self
 
-    VERSION    = "0.0.3"
+    VERSION    = "0.0.4"
     COMMIT_MSG = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
-
-    # Get time/date
-    time = Time.now
-    CUR_YEAR = time.year
 
     def login!
         # Grab username and pass
@@ -83,10 +79,10 @@ module Copywriter
         #     (C) 2014
         #     © 2014
         begin
-            content.gsub!(/([Cc]opyright( \([Cc]\)| ©)?|\([Cc]\)|©) \d{4}/, "\\1 #{CUR_YEAR}")
+            content.gsub!(/([Cc]opyright( \([Cc]\)| ©)?|\([Cc]\)|©) \d{4}/, "\\1 #{@cur_year}")
         rescue
             # try w/o "©" symbol if we had errors
-            content.gsub!(/([Cc]opyright( \([Cc]\))?|\([Cc]\)) \d{4}/, "\\1 #{CUR_YEAR}")
+            content.gsub!(/([Cc]opyright( \([Cc]\))?|\([Cc]\)) \d{4}/, "\\1 #{@cur_year}")
         end
 
         # Only commit if we need to
@@ -94,7 +90,7 @@ module Copywriter
             @modified_files << {:path => file_path, :content => content}
             puts "  #{file_path} is now up-to-date.".green
         else
-            puts "  #{file_path} was already up-to-date."
+            puts "  #{file_path} is already up-to-date."
         end
     end
 
@@ -142,7 +138,7 @@ module Copywriter
 
     def run!(options={})
         # Default options
-        options = {all: false, skip_forks: false}.merge(options)
+        options = {all: false, skip_forks: false, year: nil}.merge(options)
 
         if options[:all] then
             repos = @client.repositories()
@@ -159,9 +155,13 @@ module Copywriter
             end
         end
 
+        # Get copyright year
+        @cur_year = options[:year] || Time.now.year
+
         # Loop through each repo
         repos.each do |repo|
 
+            # Skip if repo is a fork and --skip-forks is on
             next if options[:skip_forks] and repo[:fork]
 
             # Get repo info

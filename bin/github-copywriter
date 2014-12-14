@@ -29,6 +29,10 @@ Usage: #{executable_name} [repos...]
         options[:skip_forks] = true
     end
 
+    opts.on("-y", "--year YEAR", "Update copyrights to a give year.") do |year|
+        options[:year] = year
+    end
+
     opts.on_tail("-h","--help", "Show this message.") do
         puts opts
         exit
