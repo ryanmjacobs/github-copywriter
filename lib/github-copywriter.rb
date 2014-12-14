@@ -11,7 +11,8 @@ require "base64"
 module Copywriter
     extend self
 
-    VERSION = "0.0.1"
+    VERSION    = "0.0.1"
+    COMMIT_MSG = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
 
     # Get time/date
     time = Time.now
@@ -83,7 +84,7 @@ module Copywriter
             @modified_files << {:path => file_path, :content => content}
         end
 
-        puts "#{repo}: #{file_path} is up-to-date."
+        puts "  #{file_path} is up-to-date."
     end
 
     ##
@@ -126,8 +127,6 @@ module Copywriter
         # Commit final tree
         sha_new_commit = @client.create_commit(repo, commit_msg, sha_new_tree, sha_latest_commit).sha
         updated_ref    = @client.update_ref(repo, ref, sha_new_commit)
-
-        # http://mattgreensmith.net/2013/08/08/commit-directly-to-github-via-api-with-octokit/
     end
 
     def run!(options={})
@@ -151,7 +150,6 @@ module Copywriter
 
         # Loop through each repo
         repos.each do |repo|
-            puts
 
             next if options[:skip_forks] and repo[:fork]
 
@@ -160,6 +158,8 @@ module Copywriter
             ref        = "heads/#{repo[:default_branch]}"
             commit_sha = @client.ref(repo_name, ref).object.sha
             tree_sha   = @client.commit(repo_name, commit_sha).commit.tree.sha
+
+            puts "\n"+repo_name+":"
 
             # Store updated files until we commit
             @modified_files = Array.new
@@ -174,8 +174,12 @@ module Copywriter
             end
 
             # Commit stored up files
-            commit_msg = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
-            commit_files(repo_name, ref, "100644", @modified_files, commit_msg)
+            if @modified_files.size > 0
+                commit_files(repo_name, ref, "100644", @modified_files, COMMIT_MSG)
+                puts "  Commited #{@modified_files.size} files."
+            else
+                puts "  No files needed to be commited."
+            end
         end
     end
 
