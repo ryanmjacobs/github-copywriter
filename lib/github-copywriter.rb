@@ -28,6 +28,14 @@ module Copywriter
 
         # Auth to GitHub
         @client = Octokit::Client.new(:login => username, :password => password)
+
+        # Check if the basic_auth worked; TODO: Find a better way to do this
+        begin
+            @client.authorizations
+        rescue Octokit::Unauthorized
+            puts "error: Bad credentials".red
+            exit
+        end
     end
 
     ##
@@ -145,7 +153,7 @@ module Copywriter
                 if @client.repository?(name) then
                     repos << @client.repository(name)
                 else
-                    puts "error: repo \"#{name}\" does not exist!"
+                    puts "error: repo \"#{name}\" does not exist!".red
                     exit
                 end
             end
