@@ -2,6 +2,8 @@ Updates your copyrights... so you don't have to!
 
 `$ gem install github-copywriter`
 
+---
+
 ### Update specific repos
 `$ github-copywriter MyCoolRepo MyOtherCoolRepo`
 
@@ -11,6 +13,27 @@ Updates your copyrights... so you don't have to!
 ### Update all repos, excluding forks
 `$ github-copywriter --all --skip-forks`
 
-### Contributing
-Feel free to [fork](//github.com/ryanmjacobs/github-copywriter) this project
-and add some sweet features.
+---
+
+## Contributing
+Please submit any issue or feature requests [here](//github.com/ryanmjacobs/github-copywriter/issues).<br>
+Questions are fine too :)
+
+<br>
+Feel free to [fork](//github.com/ryanmjacobs/github-copywriter) this project, and:
+
+* fix bugs
+* add some sweet features
+* implement feature requests
+* improve the docs and/or this site
+
+---
+
+## Under the hood
+All GitHub API calls are made with [Octokit](//github.com/octokit/octokit.rb).
+
+####Basic breakdown of the program's logic:
+1. Authenticate to GitHub.
+2. Loop through each user repo given, and:
+    * Update copyrights on files: `README.md`, `LICENSE`, etc.
+    * Create a local commit and push to GitHub.

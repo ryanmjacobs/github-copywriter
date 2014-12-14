@@ -63,14 +63,14 @@ h1 a {
 }
 
 h2 {
-  margin-top: 2rem;
+  margin-top: 1rem;
   font-size: 1.25rem;
   margin-bottom: 0.75rem;
 }
 
 @media (min-width: 30rem) {
   h2 {
-    margin-top: 2.5rem;
+    margin-top: 1.25rem;
     font-size: 1.5rem;
     margin-bottom: 1rem;
   }
@@ -83,7 +83,7 @@ h3, h4, h5, h6 {
 
 p, ul, ol, dl, table, pre, blockquote {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0.25rem;
 }
 
 ul, ol {
@@ -160,6 +160,7 @@ pre > code {
 
 footer {
     text-align: center;
+    margin-top: 2rem;
 }
 footer > p {
     font-size: 0.7rem;
