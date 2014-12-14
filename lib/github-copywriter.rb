@@ -13,7 +13,7 @@ require "pp" # debug tool
 module Copywriter
     extend self
 
-    VERSION    = "0.0.1"
+    VERSION    = "0.0.2"
     COMMIT_MSG = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
 
     # Get time/date
