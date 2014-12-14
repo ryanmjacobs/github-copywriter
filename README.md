@@ -15,6 +15,9 @@ Updates your copyrights... so you don't have to!
 ### Update all repos, excluding forks
 `$ github-copywriter --all --skip-forks`
 
+### Update all repos to 2015
+`$ github-copywriter --all --year 2015`
+
 ---
 
 ## Contributing
