@@ -118,11 +118,11 @@ module Copywriter
         end
 
         # Construct temp. tree of files to commit
-        tree = Array.new
+        trees = Array.new
         files.each do |file|
             blob_sha = @client.create_blob(repo, Base64.encode64(file[:content]), "base64")
 
-            tree << {
+            trees << {
                 :path => file[:path],
                 :mode => file_mode,
                 :type => "blob",
@@ -130,14 +130,13 @@ module Copywriter
             }
         end
 
-        # Contruct final tree to commit
+        # Contruct the commit
         latest_commit = @client.ref(repo, ref).object
-        base_tree     = @client.commit(repo, latest_commit.sha).commit.tree
-        new_tree      = @client.create_tree(repo, {:base_tree => base_tree.sha, :tree => tree})
+        new_tree      = @client.create_tree(repo, trees)
+        new_commit    = @client.create_commit(repo, commit_msg, new_tree.sha, latest_commit.sha)
 
-        # Commit final tree
-        new_commit    = @client.create_commit(repo, commit_msg, new_tree.sha, latest_commit.sha).sha
-        updated_ref   = @client.update_ref(repo, ref, new_commit.sha)
+        # Commit it!
+        @client.update_ref(repo, ref, new_commit.sha)
     end
 
     def run!(options={})
