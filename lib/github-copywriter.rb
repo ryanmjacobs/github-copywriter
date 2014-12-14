@@ -7,6 +7,8 @@
 require "highline/import"
 require "octokit"
 require "base64"
+require "colorize"
+require "pp" # debug tool
 
 module Copywriter
     extend self
@@ -51,7 +53,7 @@ module Copywriter
 
         # Grab file from repo
         file = @client.contents(repo, :path => file_path)
-        if file[:type] != "file" then raise "Error: #{file_path} on #{repo} is not a file!" end
+        if file[:type] != "file" then raise "error: #{file_path} on #{repo} is not a file!" end
 
         # Have to do separate assignments b/c ruby shares strings,
         # TODO: find a way around this
@@ -82,9 +84,10 @@ module Copywriter
         # Only commit if we need to
         if content != old_content then
             @modified_files << {:path => file_path, :content => content}
+            puts "  #{file_path} is now up-to-date.".green
+        else
+            puts "  #{file_path} was already up-to-date."
         end
-
-        puts "  #{file_path} is up-to-date."
     end
 
     ##
@@ -107,7 +110,7 @@ module Copywriter
         end
 
         # Construct temp. tree of files to commit
-        tree = []
+        tree = Array.new
         files.each do |file|
             blob_sha = @client.create_blob(repo, Base64.encode64(file[:content]), "base64")
 
@@ -122,7 +125,9 @@ module Copywriter
         # Contruct final tree to commit
         sha_latest_commit = @client.ref(repo, ref).object.sha
         sha_base_tree     = @client.commit(repo, sha_latest_commit).commit.tree.sha
+        PP.pp({:base_tree => sha_base_tree, :tree => tree})
         sha_new_tree      = @client.create_tree(repo, {:base_tree => sha_base_tree, :tree => tree}).sha
+        PP.pp(sha_new_tree)
 
         # Commit final tree
         sha_new_commit = @client.create_commit(repo, commit_msg, sha_new_tree, sha_latest_commit).sha
@@ -136,7 +141,7 @@ module Copywriter
         if options[:all] then
             repos = @client.repositories()
         else
-            repos = []
+            repos = Array.new
             options[:repos].each do |r|
                 name = @client.login+"/"+File.basename(r)
                 if @client.repository?(name) then
@@ -154,29 +159,40 @@ module Copywriter
             next if options[:skip_forks] and repo[:fork]
 
             # Get repo info
-            repo_name  = repo[:full_name]
-            ref        = "heads/#{repo[:default_branch]}"
-            commit_sha = @client.ref(repo_name, ref).object.sha
-            tree_sha   = @client.commit(repo_name, commit_sha).commit.tree.sha
-
+            repo_name     = repo[:full_name]
+            ref           = "heads/#{repo[:default_branch]}"
+            commit_sha    = @client.ref(repo_name, ref).object.sha
+            root_tree_sha = @client.commit(repo_name, commit_sha).commit.tree.sha
             puts "\n"+repo_name+":"
 
-            # Store updated files until we commit
+            # Grab the tree
+            tree = @client.tree(repo_name, root_tree_sha, :recursive => true)
+
+            # warn user about truncation
+            if tree[:truncated] then
+                puts "  warning: tree truncated because number of items exceeded limit.".yellow
+                puts "           If you feel like fixing this, see issue #xx".yellow
+                puts "           http://github.com/ryanmjacobs/github-copywriter/xx".yellow
+            end
+
+            # Stores updated files until we commit
+            # @modified_files is a hash {:path, :content}
             @modified_files = Array.new
 
-            # Update certain files based on name/extension
-            @client.tree(repo_name, tree_sha, :recursize => true)[:tree].each do |file|
-                file_path = file[:path]
+            # Loop through all of the tree's blobs
+            tree[:tree].each do |file|
+                next if file[:type] != "blob"
 
-                if accepted_name?(file_path) then
-                    update_copyright(repo_name, ref, file_path)
+                if accepted_name?(file[:path]) then
+                    update_copyright(repo_name, ref, file[:path])
                 end
             end
 
             # Commit stored up files
             if @modified_files.size > 0 then
+                print "  Committing #{@modified_files.size} files..."
                 commit_files(repo_name, ref, "100644", @modified_files, COMMIT_MSG)
-                puts "  Commited #{@modified_files.size} files."
+                puts " done"
             else
                 puts "  No files needed to be commited."
             end
