@@ -3,12 +3,12 @@
 ### Introduction
 I'm pretty much open to anything really. If you have a feature you want to
 implement, first create an issue for it (so I can see what you're trying to
-achieve). Then submit a pull request later when
-you're done with it.
+achieve). Then submit a pull request later when you're done with it.
 
-Try best you can to keep the code consistent. The only thing you really
-need to worry about is the indentation. Please set your editor to use 4-space
-indentation.
+Or, if you're feeling generous, implement someone else's feature request!
+
+Try best you can to keep the code consistent. My only gripe is indentation.
+Please set your editor to use 4-space indentation!
 
 If I merge any of your pull requests, big or small, I will add you to the
 [list of contributors](//github.com/ryanmjacobs/github-copywriter/blob/master/CONTRIBUTORS.md)
