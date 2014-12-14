@@ -132,7 +132,8 @@ module Copywriter
 
         # Contruct the commit
         latest_commit = @client.ref(repo, ref).object
-        new_tree      = @client.create_tree(repo, trees)
+        base_tree     = @client.commit(repo, latest_commit.sha).commit.tree
+        new_tree      = @client.create_tree(repo, trees, :base_tree => base_tree.sha)
         new_commit    = @client.create_commit(repo, commit_msg, new_tree.sha, latest_commit.sha)
 
         # Commit it!
