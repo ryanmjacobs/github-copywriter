@@ -1,31 +1,40 @@
-# Copywriter
+# github-copywriter
 
-TODO: Write a gem description
+Updates your copyrights... so you don't have to!
 
-## Installation
+`$ gem install github-copywriter`
 
-Add this line to your application's Gemfile:
+---
 
-```ruby
-gem 'copywriter'
-```
+### Update specific repos
+`$ github-copywriter MyCoolRepo MyOtherCoolRepo`
 
-And then execute:
+### Update all repos
+`$ github-copywriter --all`
 
-    $ bundle
+### Update all repos, excluding forks
+`$ github-copywriter --all --skip-forks`
 
-Or install it yourself as:
-
-    $ gem install copywriter
-
-## Usage
-
-TODO: Write usage instructions here
+---
 
 ## Contributing
+Please submit issues or feature requests [here](//github.com/ryanmjacobs/github-copywriter/issues).
+Questions and comments are fine too :)
 
-1. Fork it ( https://github.com/[my-github-username]/copywriter/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+Feel free to [fork](//github.com/ryanmjacobs/github-copywriter) this project, and:
+
+* fix bugs
+* add some sweet features
+* implement feature requests
+* improve the docs and/or this site
+
+---
+
+## Under the hood
+All GitHub API calls are made with [Octokit](//github.com/octokit/octokit.rb).
+
+####Basic breakdown of the program's logic:
+1. Authenticate to GitHub.
+2. Loop through each user repo given, and:
+    * Update copyrights on files: `README.md`, `LICENSE`, etc.
+    * Create a local commit and push to GitHub.
