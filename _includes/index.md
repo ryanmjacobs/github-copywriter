@@ -20,7 +20,7 @@ Updates your copyrights... so you don't have to!
 
 ## Contributing
 Please submit issues or feature requests [here](//github.com/ryanmjacobs/github-copywriter/issues).
-Questions and comments are fine too. Checkout
+Questions and comments are welcome as well. Checkout
 [CONTRIBUTING.md](//github.com/ryanmjacobs/github-copywriter/blob/master/CONTRIBUTING.md)
 for more info.
 
