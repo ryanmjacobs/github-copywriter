@@ -17,7 +17,7 @@ Updates your copyrights... so you don't have to!
 
 ## Contributing
 Please submit any issue or feature requests [here](//github.com/ryanmjacobs/github-copywriter/issues).<br>
-Questions are fine too :)
+Questions and comments are fine too :)
 
 <br>
 Feel free to [fork](//github.com/ryanmjacobs/github-copywriter) this project, and:
