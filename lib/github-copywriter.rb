@@ -123,15 +123,13 @@ module Copywriter
         end
 
         # Contruct final tree to commit
-        sha_latest_commit = @client.ref(repo, ref).object.sha
-        sha_base_tree     = @client.commit(repo, sha_latest_commit).commit.tree.sha
-        PP.pp({:base_tree => sha_base_tree, :tree => tree})
-        sha_new_tree      = @client.create_tree(repo, {:base_tree => sha_base_tree, :tree => tree}).sha
-        PP.pp(sha_new_tree)
+        latest_commit = @client.ref(repo, ref).object
+        base_tree     = @client.commit(repo, latest_commit.sha).commit.tree
+        new_tree      = @client.create_tree(repo, {:base_tree => base_tree.sha, :tree => tree})
 
         # Commit final tree
-        sha_new_commit = @client.create_commit(repo, commit_msg, sha_new_tree, sha_latest_commit).sha
-        updated_ref    = @client.update_ref(repo, ref, sha_new_commit)
+        new_commit    = @client.create_commit(repo, commit_msg, new_tree.sha, latest_commit.sha).sha
+        updated_ref   = @client.update_ref(repo, ref, new_commit.sha)
     end
 
     def run!(options={})
@@ -161,12 +159,12 @@ module Copywriter
             # Get repo info
             repo_name     = repo[:full_name]
             ref           = "heads/#{repo[:default_branch]}"
-            commit_sha    = @client.ref(repo_name, ref).object.sha
-            root_tree_sha = @client.commit(repo_name, commit_sha).commit.tree.sha
+            latest_commit = @client.ref(repo_name, ref).object
+            root_tree     = @client.commit(repo_name, latest_commit.sha).commit.tree
             puts "\n"+repo_name+":"
 
-            # Grab the tree
-            tree = @client.tree(repo_name, root_tree_sha, :recursive => true)
+            # Grab the *whole* tree
+            tree = @client.tree(repo_name, root_tree.sha, :recursive => true)
 
             # warn user about truncation
             if tree[:truncated] then
