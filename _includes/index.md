@@ -25,7 +25,7 @@ Questions and comments are welcome as well. Checkout
 for more info.
 
 <br>
-Feel free to [fork](//github.com/ryanmjacobs/github-copywriter) this project, and:
+Feel free to [fork](//github.com/ryanmjacobs/github-copywriter/fork) this project, and:
 
 * fix bugs
 * add some sweet features
