@@ -1,3 +1,4 @@
+# encoding: utf-8
 ################################################################################
 # github-copywriter/github-copywriter.rb
 #
