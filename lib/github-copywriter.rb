@@ -42,6 +42,8 @@ module Copywriter
 
         if names.include?      filename.downcase               then return true end
         if extensions.include? File.extname(filename.downcase) then return true end
+
+        return false
     end
 
     ##
