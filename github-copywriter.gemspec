@@ -1,4 +1,4 @@
-# coding: utf-8
+# encoding: utf-8
 
 # Update gem version here
 VERSION = "0.0.4"
