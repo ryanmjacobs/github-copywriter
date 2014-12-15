@@ -4,16 +4,14 @@
 # Author: Ryan Jacobs <ryan.mjacobs@gmail.com
 ################################################################################
 
-require "highline/import"
-require "octokit"
 require "base64"
+require "octokit"
 require "colorize"
-require "pp" # debug tool
+require "highline/import"
 
 module Copywriter
     extend self
 
-    VERSION    = "0.0.4"
     COMMIT_MSG = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
 
     def login!

@@ -1,28 +1,30 @@
 # coding: utf-8
-lib = File.expand_path("../lib", __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "github-copywriter"
 
-Gem::Specification.new do |spec|
-  spec.name          = "github-copywriter"
-  spec.version       = Copywriter::VERSION
-  spec.authors       = ["Ryan Jacobs"]
-  spec.email         = ["ryan.mjacobs@gmail.com"]
-  spec.summary       = %q{github-copywriter updates your copyrights... so you don't have to!}
-  spec.description   = %q{github-copywriter scans through your repositories and updates any copyrights it finds.}
-  spec.homepage      = "http://ryanmjacobs.github.io/github-copywriter"
-  spec.license       = "MIT"
+# Update gem version here
+VERSION = "0.0.4"
 
-  spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ["lib"]
+Gem::Specification.new do |gem|
+    gem.name          = "github-copywriter"
+    gem.version       = VERSION
+    gem.authors       = ["Ryan Jacobs"]
+    gem.email         = ["ryan.mjacobs@gmail.com"]
+    gem.summary       = %q{github-copywriter updates your copyrights... so you don't have to!}
+    gem.description   = %q{github-copywriter scans through your repositories and updates any copyrights it finds.}
+    gem.homepage      = "http://ryanmjacobs.github.io/github-copywriter"
+    gem.license       = "MIT"
 
-  spec.required_ruby_version = ">= 1.8.7"
+    gem.files         = `git ls-files -z`.split("\x0")
+    gem.executables   = gem.files.grep(%r{^bin/}) { |f| File.basename(f) }
+    gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+    gem.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.7"
-  spec.add_development_dependency "rake", "~> 10.0"
+    gem.required_ruby_version = ">= 1.8.7"
 
-  spec.add_runtime_dependency "octokit",  "~> 3.7"
-  spec.add_runtime_dependency "colorize", "~> 0.7.4"
+    gem.add_development_dependency "bundler", "~> 1.7"
+    gem.add_development_dependency "rake",    "~> 10.0"
+    gem.add_development_dependency "rspec",   "~> 3.1"
+
+    gem.add_runtime_dependency "octokit",  "~> 3.7"
+    gem.add_runtime_dependency "colorize", "~> 0.7"
+    gem.add_runtime_dependency "highline", "~> 1.6"
 end
