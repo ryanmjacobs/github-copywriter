@@ -1,11 +1,11 @@
 # encoding: utf-8
-
-# Update gem version here
-VERSION = "0.0.4"
+lib = File.expand_path("../lib", __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require "github-copywriter/version"
 
 Gem::Specification.new do |gem|
     gem.name          = "github-copywriter"
-    gem.version       = VERSION
+    gem.version       = Copywriter::VERSION
     gem.authors       = ["Ryan Jacobs"]
     gem.email         = ["ryan.mjacobs@gmail.com"]
     gem.summary       = %q{github-copywriter updates your copyrights... so you don't have to!}

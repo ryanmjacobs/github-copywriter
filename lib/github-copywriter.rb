@@ -1,26 +1,22 @@
-# encoding: utf-8
 ################################################################################
-# github-copywriter
+# github-copywriter/github-copywriter.rb
 #
 # Author: Ryan Jacobs <ryan.mjacobs@gmail.com
 ################################################################################
 
+require "github-copywriter/regex"
+require "github-copywriter/version"
+require "github-copywriter/octikit_wrapper"
+
 require "base64"
 require "octokit"
 require "colorize"
-require "highline/import"
 
-module Copywriter
-    extend self
+class Copywriter
 
     COMMIT_MSG = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
 
-    def login!
-        # Grab username and pass
-        puts "Obtaining OAuth2 access_token from github."
-        username = ask("GitHub username: ") { |q| q.echo = true }
-        password = ask("GitHub password: ") { |q| q.echo = "*" }
-
+    def initialize(username, password)
         # Auth to GitHub
         @client = Octokit::Client.new(:login => username, :password => password)
 
@@ -31,110 +27,6 @@ module Copywriter
             puts "error: Bad credentials".red
             exit
         end
-    end
-
-    ##
-    # Returns true if this is a file that we will update.
-    def accepted_name?(filename)
-        filename = File.basename(filename)
-
-        names      = ["readme", "license"]
-        extensions = [".md", ".txt", ".html"]
-
-        if names.include?      filename.downcase               then return true end
-        if extensions.include? File.extname(filename.downcase) then return true end
-
-        return false
-    end
-
-    ##
-    # Updates copyright using regex, then commits it.
-    #
-    # repo         = Repo to commit to,      e.g. "user/repo_name"
-    # ref          = Branch to commit to,    e.g. "heads/master"
-    # file_path    = File path on repo,      e.g. "readme", "src/file.rb", etc.
-    #
-    def update_copyright(repo, ref, file_path)
-
-        # Grab file from repo
-        file = @client.contents(repo, :path => file_path)
-        if file[:type] != "file" then raise "error: #{file_path} on #{repo} is not a file!" end
-
-        # Have to do separate assignments b/c ruby shares strings,
-        # TODO: find a way around this
-        content     = Base64.decode64(file[:content])
-        old_content = Base64.decode64(file[:content])
-
-        # Do the substitution
-        #
-        # Matches:
-        #     Copyright 2014
-        #     copyright 2014
-        #
-        #     Copyright (C) 2014
-        #     copyright (c) 2014
-        #     Copyright © 2014
-        #     copyright © 2014
-        #
-        #     (c) 2014
-        #     (C) 2014
-        #     © 2014
-        begin
-            content.gsub!(/([Cc]opyright( \([Cc]\)| ©)?|\([Cc]\)|©) \d{4}/, "\\1 #{@cur_year}")
-        rescue
-            # try w/o "©" symbol if we had errors
-            content.gsub!(/([Cc]opyright( \([Cc]\))?|\([Cc]\)) \d{4}/, "\\1 #{@cur_year}")
-        end
-
-        # Only commit if we need to
-        if content != old_content then
-            @modified_files << {:path => file_path, :content => content}
-            puts "  #{file_path} is now up-to-date.".green
-        else
-            puts "  #{file_path} is already up-to-date."
-        end
-    end
-
-    ##
-    # Commits files to a GitHub repo.
-    #
-    # repo         = Repo to commit to,      e.g. "user/repo_name"
-    # ref          = Branch to commit to,    e.g. "heads/master"
-    # file_mode    = Filemode on repo,       e.g. "100644"
-    # files        = Array of {:path, :content}
-    # commit_msg   = Commit message,         e.g. "Update file.rb"
-    #
-    def commit_files(repo, ref, file_mode, files, commit_msg)
-
-        # Return if we don't have any files to commit
-        if files.size == 0 then return end
-
-        # Force file_mode to be either 100644 or 100775
-        if file_mode != "100644" or file_mode != "100775" then
-           file_mode = "100644"
-        end
-
-        # Construct temp. tree of files to commit
-        trees = Array.new
-        files.each do |file|
-            blob_sha = @client.create_blob(repo, Base64.encode64(file[:content]), "base64")
-
-            trees << {
-                :path => file[:path],
-                :mode => file_mode,
-                :type => "blob",
-                :sha  => blob_sha
-            }
-        end
-
-        # Contruct the commit
-        latest_commit = @client.ref(repo, ref).object
-        base_tree     = @client.commit(repo, latest_commit.sha).commit.tree
-        new_tree      = @client.create_tree(repo, trees, :base_tree => base_tree.sha)
-        new_commit    = @client.create_commit(repo, commit_msg, new_tree.sha, latest_commit.sha)
-
-        # Commit it!
-        @client.update_ref(repo, ref, new_commit.sha)
     end
 
     def run!(options={})
@@ -157,7 +49,7 @@ module Copywriter
         end
 
         # Get copyright year
-        @cur_year = options[:year] || Time.now.year
+        cur_year = options[:year] || Time.now.year
 
         # Loop through each repo
         repos.each do |repo|
@@ -190,8 +82,21 @@ module Copywriter
             tree[:tree].each do |file|
                 next if file[:type] != "blob"
 
-                if accepted_name?(file[:path]) then
-                    update_copyright(repo_name, ref, file[:path])
+                if Copywriter::Regex.accepted_name?(file[:path]) then
+                    # Grab file from repo
+                    file = @client.contents(repo_name, :path => file[:path])
+                    if file[:type] != "file" then raise "error: #{file_path} on #{repo} is not a file!" end
+
+                    # Update the copyright
+                    new_content = Copywriter::Regex.update_copyright(cur_year, Base64.decode64(file[:content]))
+
+                    # Add to list of files to commit, only if the file has changed
+                    if new_content != nil then
+                        @modified_files << {:path => file[:path], :content => new_content}
+                        puts "  #{file[:path]} is now up-to-date.".green
+                    else
+                        puts "  #{file[:path]} is already up-to-date."
+                    end
                 end
             end
 
@@ -205,6 +110,4 @@ module Copywriter
             end
         end
     end
-
-    private :update_copyright, :accepted_name?, :commit_files
 end

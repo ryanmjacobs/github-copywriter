@@ -5,11 +5,14 @@
 # Author: Ryan Jacobs <ryan.mjacobs@gmail.com
 ################################################################################
 
-require "github-copywriter"
 require "optparse"
+require "highline/import"
+require "github-copywriter"
 
+# To store command-line options/parameters
 options = {}
 
+# Grab command-line options/parameters
 ARGV << "-h" if ARGV.empty?
 OptionParser.new do |opts|
     executable_name = File.split($0)[1]
@@ -44,12 +47,22 @@ Usage: #{executable_name} [repos...]
     end
 end.parse!
 
+# Must have at least one repo!
 if ARGV.empty? and not options[:all]
     puts "error: No repositories supplied!"
     exit
 end
 
+# Pass input repos into options
 options[:repos] = ARGV
 
-Copywriter.login!
-Copywriter.run!(options)
+# Get username and password
+puts "Obtaining OAuth2 access_token from github."
+username = ask("GitHub username: ") { |q| q.echo = true }
+password = ask("GitHub password: ") { |q| q.echo = "*" }
+
+# Auth to GitHub
+cw = Copywriter.new(username, password)
+
+# Do it!
+cw.run!(options)
