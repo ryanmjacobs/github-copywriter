@@ -4,17 +4,29 @@ Updates your copyrights... so you don't have to!
 
 ---
 
+## Basic Usage
+
 ### Update specific repos
 `$ github-copywriter MyCoolRepo MyOtherCoolRepo`
 
-### Update all repos
+### Update all repos (default branch)
 `$ github-copywriter --all`
+
+### Update all repos, on all branches
+`$ github-copywriter --all --all-branches`
+
+---
+
+## Other Usage
 
 ### Update all repos, excluding forks
 `$ github-copywriter --all --skip-forks`
 
 ### Update all repos to 2015
 `$ github-copywriter --all --year 2015`
+
+### Update branches: gh-pages and dev
+`$ github-copywriter --branches gh-pages,dev MyRepo`
 
 ---
 
