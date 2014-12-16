@@ -25,7 +25,10 @@ class Copywriter
         begin
             @client.authorizations
         rescue Octokit::Unauthorized
-            puts "error: Bad credentials".red
+            puts "error: Bad credentials.".red
+            exit
+        rescue Faraday::ConnectionFailed
+            puts "error: Connection failed.".red
             exit
         end
     end
