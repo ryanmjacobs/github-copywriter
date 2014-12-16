@@ -14,7 +14,7 @@ Updates your copyrights... so you don't have to!
 
 ---
 
-## Other Usage
+## More Usage
 
 ### Update all repos, excluding forks
 `$ github-copywriter --all --skip-forks`
