@@ -33,14 +33,13 @@ class Copywriter
     def run!(options={})
         # Default options
         options = {
-            all: false,
+            all_repos: false,
             skip_forks: false,
             year: nil,
-            branches: nil,
-            all_branches: false
+            branches: nil
         }.merge(options)
 
-        if options[:all] then
+        if options[:all_repos] then
             repos = @client.repositories()
         else
             repos = Array.new
@@ -69,16 +68,12 @@ class Copywriter
             puts "\n#{repo_name}:".cyan
 
             # Repo refs (branches) to loop through
-            if options[:branches] != nil then
-                refs = options[:branches].map { |branch| "heads/#{branch}" }
-            else
-                refs = "heads/#{repo[:default_branch]}"
-            end
-
-            # Use all branches if we have the flag
-            if options[:all_branches] then
-                # Get all refs of type "heads"; remove leading "refs/"
+            if options[:branches] == nil then
+                # Get every single ref (branch) by default
                 refs = @client.refs(repo_name, "heads").map { |r| r[:ref].sub("refs/", "") }
+            else
+                # User-supplied branches
+                refs = options[:branches].map { |branch| "heads/#{branch}" }
             end
 
             # Loop through each ref
