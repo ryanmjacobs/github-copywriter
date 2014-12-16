@@ -15,7 +15,7 @@ require "colorize"
 
 class Copywriter
 
-    COMMIT_MSG = "Update copyright. ♥ github-copywriter\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
+    COMMIT_MSG = "Update copyright. ♥ github-copywriter\n\nFor more info, visit http://ryanmjacobs.github.io/github-copywriter"
 
     def initialize(username, password)
         # Auth to GitHub
