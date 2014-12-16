@@ -9,11 +9,8 @@ Updates your copyrights... so you don't have to!
 ### Update specific repos
 `$ github-copywriter MyCoolRepo MyOtherCoolRepo`
 
-### Update all repos (default branch)
+### Update all repos
 `$ github-copywriter --all`
-
-### Update all repos, on all branches
-`$ github-copywriter --all --all-branches`
 
 ---
 
@@ -25,7 +22,7 @@ Updates your copyrights... so you don't have to!
 ### Update all repos to 2015
 `$ github-copywriter --all --year 2015`
 
-### Update branches: gh-pages and dev
+### Update only branches: gh-pages and dev
 `$ github-copywriter --branches gh-pages,dev MyRepo`
 
 ---
