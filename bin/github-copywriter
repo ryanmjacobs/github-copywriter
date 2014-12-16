@@ -24,7 +24,7 @@ Usage: #{executable_name} [repos...]
 
     EOS
 
-    opts.on("--all", "Update copyrights on ALL repositories.") do
+    opts.on("-a", "--all", "Update copyrights on ALL repositories.") do
         options[:all] = true
     end
 
@@ -33,7 +33,20 @@ Usage: #{executable_name} [repos...]
     end
 
     opts.on("-y", "--year YEAR", "Update copyrights to a give year.") do |year|
-        options[:year] = year
+        if year.to_i >= 1000 && year.to_i <= 9999 then
+            options[:year] = year
+        else
+            puts "error: year must be four digits".red
+            exit
+        end
+    end
+
+    opts.on("-b", "--branches branch1,branch2", "Update specific branches.") do |comma_separated_branches|
+        options[:branches] = comma_separated_branches.split(",").map(&:strip)
+    end
+
+    opts.on("--all-branches", "Update all branches.") do
+        options[:all_branches] = true
     end
 
     opts.on_tail("-h","--help", "Show this message.") do
@@ -49,7 +62,7 @@ end.parse!
 
 # Must have at least one repo!
 if ARGV.empty? and not options[:all]
-    puts "error: No repositories supplied!"
+    puts "error: No repositories supplied!".red
     exit
 end
 
