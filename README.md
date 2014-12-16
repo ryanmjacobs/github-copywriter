@@ -6,17 +6,24 @@ Updates your copyrights... so you don't have to!
 
 `$ gem install github-copywriter`
 
+## Basic Usage
+
 ### Update specific repos
 `$ github-copywriter MyCoolRepo MyOtherCoolRepo`
 
 ### Update all repos
 `$ github-copywriter --all`
 
+## Other Usage
+
 ### Update all repos, excluding forks
 `$ github-copywriter --all --skip-forks`
 
 ### Update all repos to 2015
 `$ github-copywriter --all --year 2015`
+
+### Update only branches: gh-pages and dev
+`$ github-copywriter --branches gh-pages,dev MyRepo`
 
 ## Contributing
 Please submit issues or feature requests [here](//github.com/ryanmjacobs/github-copywriter/issues).
