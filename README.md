@@ -2,6 +2,9 @@
 [![Build Status](https://travis-ci.org/ryanmjacobs/github-copywriter.svg?branch=master)](https://travis-ci.org/ryanmjacobs/github-copywriter)
 [![Gem Version](https://badge.fury.io/rb/github-copywriter.svg)](http://badge.fury.io/rb/github-copywriter)
 
+![test-repo demo](https://github.com/ryanmjacobs/github-notifier/blob/master/test_repo_demo.gif)
+See the commit [here](https://github.com/ryanmjacobs/test-repo/commit/7b095e65adf4cedcd7891326ec32c5f526838dd5).
+
 Updates your copyrights... so you don't have to!
 
 `$ gem install github-copywriter`
