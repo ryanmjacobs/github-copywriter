@@ -8,6 +8,6 @@ class Copywriter
 
     # Current version
     # @return [String]
-    VERSION = "1.0.0".freeze
+    VERSION = "1.0.1".freeze
 
 end

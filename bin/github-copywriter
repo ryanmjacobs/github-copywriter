@@ -68,7 +68,7 @@ options[:repos] = ARGV
 # Get username and password
 puts "Obtaining OAuth2 access_token from github."
 username = ask("GitHub username: ") { |q| q.echo = true }
-password = ask("GitHub password: ") { |q| q.echo = "*" }
+password = ask("GitHub password: ") { |q| q.echo = false }
 
 # Auth to GitHub
 cw = Copywriter.new(username, password)
