@@ -128,7 +128,11 @@ class Copywriter
 
                 # Commit stored up files
                 if @modified_files.size > 0 then
-                    print "    Committing #{@modified_files.size} files..."
+                    if @modified_files.size == 1 then
+                        print "    Committing 1 file..."
+                    else
+                        print "    Committing #{@modified_files.size} files..."
+                    end
                     commit_files(repo_name, ref, "100644", @modified_files, COMMIT_MSG)
                     puts " done"
                 else
