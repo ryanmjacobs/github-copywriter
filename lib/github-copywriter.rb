@@ -134,7 +134,7 @@ class Copywriter
                         print "    Committing #{@modified_files.size} files..."
                     end
                     commit_files(repo_name, ref, "100644", @modified_files, COMMIT_MSG)
-                    puts " done"
+                    puts " done!"
                 else
                     puts "    No files needed to be commited."
                 end
