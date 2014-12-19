@@ -1,8 +1,8 @@
 # github-copywriter
-[![Build Status](//travis-ci.org/ryanmjacobs/github-copywriter.svg?branch=master)](//travis-ci.org/ryanmjacobs/github-copywriter)
-[![Gem Version](//badge.fury.io/rb/github-copywriter.svg)](//badge.fury.io/rb/github-copywriter)
+[![Build Status](https://travis-ci.org/ryanmjacobs/github-copywriter.svg?branch=master)](https://travis-ci.org/ryanmjacobs/github-copywriter)
+[![Gem Version](https://badge.fury.io/rb/github-copywriter.svg)](http://badge.fury.io/rb/github-copywriter)
 
-![test-repo demo](//raw.githubusercontent.com/ryanmjacobs/github-copywriter/master/test_repo_demo.gif)
+![test-repo demo](https://raw.githubusercontent.com/ryanmjacobs/github-copywriter/master/test_repo_demo.gif)
 
 **See the commit [here](//github.com/ryanmjacobs/test-repo/commit/7b095e65adf4cedcd7891326ec32c5f526838dd5). See the pretty website [here](//ryanmjacobs.github.io/github-copywriter).**
 
