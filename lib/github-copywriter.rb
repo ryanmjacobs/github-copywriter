@@ -21,7 +21,9 @@ class Copywriter
         # Auth to GitHub
         @client = Octokit::Client.new(:login => username, :password => password)
 
-        # Check if the basic_auth worked; TODO: Find a better way to do this
+        # Check if the basic_auth worked.
+        # TODO: Find a better way to do this
+        # https://github.com/ryanmjacobs/github-copywriter/issues/1
         begin
             @client.authorizations
         rescue Octokit::Unauthorized
