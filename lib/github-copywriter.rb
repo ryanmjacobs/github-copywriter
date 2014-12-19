@@ -116,9 +116,12 @@ class Copywriter
                         # Update the copyright
                         new_content = Copywriter::Regex.update_copyright(cur_year, Base64.decode64(file[:content]))
 
+                        # Skip to the next file if we didn't even find a copyright in the text
+                        next if not new_content[:found_copyright]
+
                         # Add to list of files to commit, only if the file has changed
-                        if new_content != nil then
-                            @modified_files << {:path => file[:path], :content => new_content}
+                        if new_content[:updated_now] then
+                            @modified_files << {:path => file[:path], :content => new_content[:content]}
                             puts "    #{file[:path]} is now up-to-date.".green
                         else
                             puts "    #{file[:path]} is already up-to-date."

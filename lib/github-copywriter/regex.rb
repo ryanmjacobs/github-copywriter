@@ -26,17 +26,36 @@ class Copywriter
             return false
         end
 
-        # Updates copyright using regex, then commits it.
+        # Updates copyright using regex.
         #
-        # @param year    [Numeric] Year to update to,   e.g. 2024
-        # @param content [String]  Text with outdated copyright
-        # @return [String] Text with updated copyright. Nil if file was already
-        # up to date.
+        # @param year    [String] Year to update to, e.g. "2024"
+        # @param content [String] Text with outdated copyright
+        # @return [String] Hash object {:new_content, :updated_now, :found_copyright}
+        #
+        # Example return hashes:
+        #
+        # Input:
+        #   "...Copyright 2014..."
+        # Return:
+        #   {:content => "...Copyright 2014...", :updated_now => false, :found_copyright => true}
+        #
+        # Input:
+        #   "...no copyright here..."
+        # Return:
+        #   {:content => "...no copyright here...", :updated_now => false, :found_copyright => false}
+        #
+        # Input:
+        #   "...Copyright 2013..."
+        # Return:
+        #   {:content => "...Copyright 2014...", :updated_now => true, :found_copyright => true}
         def update_copyright(year, old_content)
-            # Have to do separate assignments b/c ruby shares strings,
-            # TODO: find a way around this
+            data = {
+                :content => "",
+                :updated_now => false,
+                :found_copyright => false
+            }
 
-            # Do the substitution
+            # The Glorious Regular Expression
             #
             # Matches:
             #     Copyright 2014
@@ -50,21 +69,28 @@ class Copywriter
             #     (c) 2014
             #     (C) 2014
             #     © 2014
+            utf_regex     = /([Cc]opyright( \([Cc]\)| ©)?|\([Cc]\)|©) \d{4}/
+            ascii_regex   = /([Cc]opyright( \([Cc]\))?|\([Cc]\)) \d{4}/
+            regex_replace = "\\1 #{year}"
+
+            # Do the substitution
             begin
-                new_content = \
-                old_content.gsub(/([Cc]opyright( \([Cc]\)| ©)?|\([Cc]\)|©) \d{4}/, "\\1 #{year}")
+                # Do UTF-8 Regex
+
+                data[:found_copyright] = old_content.grep(utf_regex)
+                data[:content] = old_content.gsub(utf_regex, regex_replace)
             rescue
-                # try w/o "©" symbol if we had errors
-                new_content = \
-                old_content.gsub(/([Cc]opyright( \([Cc]\))?|\([Cc]\)) \d{4}/, "\\1 #{year}")
+                # Do Ascii Regex if the above fails
+                data[:found_copyright] = old_content.grep(ascii)
+                data[:content] = old_content.gsub(ascii_regex, regex_replace)
             end
 
-            # Only commit if we need to
+            # Update whether or not we had to update the copyright
             if new_content != old_content then
-                return new_content
-            else
-                return nil
+                content[:updated] = true
             end
+
+            return data
         end
     end
 end
