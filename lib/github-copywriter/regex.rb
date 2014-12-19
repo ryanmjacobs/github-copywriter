@@ -30,7 +30,7 @@ class Copywriter
         #
         # @param year    [String] Year to update to, e.g. "2024"
         # @param content [String] Text with outdated copyright
-        # @return [String] Hash object {:new_content, :updated_now, :found_copyright}
+        # @return [Hash] {:new_content, :updated_now, :found_copyright}
         #
         # Example return hashes:
         #
