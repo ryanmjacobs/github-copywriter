@@ -4,11 +4,11 @@
 
 ![test-repo demo](https://raw.githubusercontent.com/ryanmjacobs/github-copywriter/master/test_repo_demo.gif)
 
-See the commit [here](https://github.com/ryanmjacobs/test-repo/commit/7b095e65adf4cedcd7891326ec32c5f526838dd5).
+**See the commit [here](https://github.com/ryanmjacobs/test-repo/commit/7b095e65adf4cedcd7891326ec32c5f526838dd5).**
 
-Updates your copyrights... so you don't have to!
+## Updates your copyrights... so you don't have to!
 
-`$ gem install github-copywriter`
+### `$ gem install github-copywriter`
 
 ## Basic Usage
 
