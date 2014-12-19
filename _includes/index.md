@@ -19,8 +19,8 @@ Updates your copyrights... so you don't have to!
 ### Update all repos, excluding forks
 `$ github-copywriter --all --skip-forks`
 
-### Update all repos to 2015
-`$ github-copywriter --all --year 2015`
+<h3 id="year-example-header">Update all repos to 2099</h3>
+<code id="year-example-code">$ github-copywriter --all --year 2099</code>
 
 ### Update only branches: gh-pages and dev
 `$ github-copywriter --branches gh-pages,dev MyRepo`

@@ -39,4 +39,17 @@
         ga('send', 'pageview');
     }(this, this.document));
 </script>
+<script>
+    /* keep `github-copywriter --year` somewhere in the near future */
+    (function (window, document) {
+        var cur_year = new Date().getFullYear();
+        var year     = Math.floor(Math.random() * (100-(cur_year-2000))) + cur_year;
+
+        var header   = document.getElementById("year-example-header");
+        var code     = document.getElementById("year-example-code");
+
+        header.innerHTML = "Update all repos to " + year;
+        code.innerHTML   = "$ github-copywriter --all --year " + year;
+    }(this, this.document));
+</script>
 </html>
