@@ -40,6 +40,8 @@ Push changes to the origin.
 git push origin add-rainbow-text
 ```
 
+Lastly, submit a pull request!
+
 ### Staying in sync with the upstream
 Set and fetch the upstream remote.
 ```
