@@ -4,7 +4,7 @@
 
 ![test-repo demo](https://raw.githubusercontent.com/ryanmjacobs/github-copywriter/master/test_repo_demo.gif)
 
-**See the commit [here](//github.com/ryanmjacobs/test-repo/commit/7b095e65adf4cedcd7891326ec32c5f526838dd5). See the pretty website [here](//ryanmjacobs.github.io/github-copywriter).**
+**See the example commit [here](//github.com/ryanmjacobs/test-repo/commit/7b095e65adf4cedcd7891326ec32c5f526838dd5). See the pretty website [here](//ryanmjacobs.github.io/github-copywriter).**
 
 ## Updates your copyrights... so you don't have to!
 
