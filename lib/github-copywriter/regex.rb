@@ -77,17 +77,17 @@ class Copywriter
             begin
                 # Do UTF-8 Regex
 
-                data[:found_copyright] = old_content.grep(utf_regex)
+                data[:found_copyright] = (utf_regex === old_content)
                 data[:content] = old_content.gsub(utf_regex, regex_replace)
             rescue
                 # Do Ascii Regex if the above fails
-                data[:found_copyright] = old_content.grep(ascii)
+                data[:found_copyright] = (ascii_regex === old_content)
                 data[:content] = old_content.gsub(ascii_regex, regex_replace)
             end
 
             # Update whether or not we had to update the copyright
-            if new_content != old_content then
-                content[:updated] = true
+            if data[:content] != old_content then
+                data[:updated_now] = true
             end
 
             return data

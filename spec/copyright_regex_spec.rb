@@ -23,25 +23,53 @@ copyrights = [
     { :old => "© 1970",             :new => "© 2014" },
 ]
 
+garbage_text = [
+    "sjdfhaksjdfashdjfahskdjfh",
+    "asdjfasdf",
+    "hello these are words",
+    "thing thing thing",
+    "NOTCOPYRIGHT",
+    "NOT COPYRIGHT",
+    "(c) (c) (C)",
+    "_dfasdf_",
+    "© © ©",
+    "#@$%#%@#%23"
+]
+
 # ./lib/github-copywriter/regex.rb
 describe Copywriter do
     regex = Copywriter::Regex
 
-    # Copywriter::Regex.update_copyright ->
-    #     should return the updated copyright if the input was out of date
+    # Copywriter::Regex.update_copyright
     context "an out-of-date copyright..." do
         copyrights.each do |copyright|
             updated_copyright = regex.update_copyright(2014, copyright[:old])
-            it { expect(updated_copyright).to eq(copyright[:new]) }
+
+            it { expect(updated_copyright[:updated_now])    .to be(true) }
+            it { expect(updated_copyright[:found_copyright]).to be(true) }
+            it { expect(updated_copyright[:content])        .to eq(copyright[:new]) }
         end
     end
 
-    # Copywriter::Regex.update_copyright ->
-    #     should return nil if the input was up-to-date
+    # Copywriter::Regex.update_copyright
     context "an up-to-date copyright..." do
         copyrights.each do |copyright|
             updated_copyright = regex.update_copyright(2014, copyright[:new])
-            it { expect(updated_copyright).to be(nil) }
+
+            it { expect(updated_copyright[:updated_now])    .to be(false) }
+            it { expect(updated_copyright[:found_copyright]).to be(true) }
+            it { expect(updated_copyright[:content])        .to eq(copyright[:new]) }
+        end
+    end
+
+    # Copywriter::Regex.update_copyright
+    context "garbage text input..." do
+        garbage_text.each do |garbage|
+            updated_copyright = regex.update_copyright(2014, garbage)
+
+            it { expect(updated_copyright[:updated_now])    .to be(false) }
+            it { expect(updated_copyright[:found_copyright]).to be(false) }
+            it { expect(updated_copyright[:content])        .to eq(garbage) }
         end
     end
 end
