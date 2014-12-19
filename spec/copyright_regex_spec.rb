@@ -33,7 +33,7 @@ garbage_text = [
     "(c) (c) (C)",
     "_dfasdf_",
     "© © ©",
-    "#@$%#%@#%23"
+    "REALLYLONGSTRINGWITHNOSPACES"
 ]
 
 # ./lib/github-copywriter/regex.rb
