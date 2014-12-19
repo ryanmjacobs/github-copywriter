@@ -4,7 +4,7 @@
 #
 # All of the regex that's behind this amazing project :)
 #
-# Author: Ryan Jacobs <ryan.mjacobs@gmail.com
+# Author: Ryan Jacobs <ryan.mjacobs@gmail.com>
 ################################################################################
 
 class Copywriter

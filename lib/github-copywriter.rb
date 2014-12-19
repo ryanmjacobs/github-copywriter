@@ -2,7 +2,7 @@
 ################################################################################
 # github-copywriter/github-copywriter.rb
 #
-# Author: Ryan Jacobs <ryan.mjacobs@gmail.com
+# Author: Ryan Jacobs <ryan.mjacobs@gmail.com>
 ################################################################################
 
 require "github-copywriter/regex"

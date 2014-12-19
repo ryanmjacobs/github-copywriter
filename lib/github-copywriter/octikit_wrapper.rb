@@ -3,7 +3,7 @@
 #
 # Octokit wrapper for commiting multiple files to a GitHub repo.
 #
-# Author: Ryan Jacobs <ryan.mjacobs@gmail.com
+# Author: Ryan Jacobs <ryan.mjacobs@gmail.com>
 ################################################################################
 
 class Copywriter

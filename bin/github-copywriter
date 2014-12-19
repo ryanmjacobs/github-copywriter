@@ -2,7 +2,7 @@
 ################################################################################
 # github-copywriter
 #
-# Author: Ryan Jacobs <ryan.mjacobs@gmail.com
+# Author: Ryan Jacobs <ryan.mjacobs@gmail.com>
 ################################################################################
 
 require "optparse"
