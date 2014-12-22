@@ -33,6 +33,7 @@ class Copywriter
         # @return [Hash] {:new_content, :updated_now, :found_copyright}
         #
         # Example return hashes:
+        # ======================
         #
         # Input:
         #   "...Copyright 2014..."
@@ -55,39 +56,52 @@ class Copywriter
                 :found_copyright => false
             }
 
-            # The Glorious Regular Expression
-            #
-            # Matches:
-            #     Copyright 2014
-            #     copyright 2014
-            #
-            #     Copyright (C) 2014
-            #     copyright (c) 2014
-            #     Copyright © 2014
-            #     copyright © 2014
-            #
-            #     (c) 2014
-            #     (C) 2014
-            #     © 2014
-            utf_regex     = /([Cc]opyright( \([Cc]\)| ©)?|\([Cc]\)|©) \d{4}/
-            ascii_regex   = /([Cc]opyright( \([Cc]\))?|\([Cc]\)) \d{4}/
-            regex_replace = "\\1 #{year}"
+            # I'm truly sorry for anyone trying to decode these regular
+            # expressions. This is the most unreadable regex I have ever
+            # written.
 
-            # Do the substitution
-            begin
-                # Do UTF-8 Regex
+            prefix = /([Cc]opyright( \([Cc]\)| ©)?|\([Cc]\)|©) /
+            suffix = /(\.| |$)/
+            comma_sep = /((\d{4},|\d{4}-\d{4},)*)/
+            regexs = [
 
-                data[:found_copyright] = (utf_regex === old_content)
-                data[:content] = old_content.gsub(utf_regex, regex_replace)
-            rescue
-                # Do Ascii Regex if the above fails
-                data[:found_copyright] = (ascii_regex === old_content)
-                data[:content] = old_content.gsub(ascii_regex, regex_replace)
+                # Singular -> (c) 2012 -> (c) 2014
+                # for any year
+                { :regex => /#{prefix}\d{4}#{suffix}/, :replace => "\\1 #{year}\\3" },
+
+                # Multiple comma separated, ending w/ year_before
+                # (c) 2009-2011,2013 -> (c) 2009-2011,2013-2014
+                # for year before
+                { :regex => /#{prefix}#{comma_sep}#{year-1}#{suffix}/, :replace => "\\1 \\3#{year-1}-#{year}\\5" },
+
+                # Multiple comma separated, ending w/ some_year DASH year_before
+                # (c) 2008-2010,2012-2013 -> (c) 2008-2010,2012-2014
+                # for year before
+                { :regex => /#{prefix}#{comma_sep}((\d{4}-)?#{year-1})#{suffix}/, :replace => "\\1 \\3\\6#{year}\\7" },
+
+                # Multiple comma separated with dash
+                # (c) 2009,2012 -> (c) 2009,2012,2014
+                # (c) 2009-2012 -> (c) 2009-2012,2014
+                # for any year
+                { :regex => /#{prefix}#{comma_sep}((\d{4}-)?\d{4})#{suffix}/, :replace => "\\1 \\3\\5,#{year}\\7" },
+            ]
+
+            already_updated = /#{prefix}#{comma_sep}(\d{4}-)?#{year}( |$)/
+
+            if (already_updated === old_content) then
+                data[:content] = old_content
+                data[:found_copyright] = true
+                return data
             end
 
-            # Update whether or not we had to update the copyright
-            if data[:content] != old_content then
-                data[:updated_now] = true
+            regexs.each_with_index do |r,num|
+                data[:found_copyright] = true if (r[:regex] === old_content)
+                data[:content] = old_content.gsub(r[:regex], r[:replace])
+
+                if data[:content] != old_content then
+                    data[:updated_now] = true
+                    return data
+                end
             end
 
             return data
