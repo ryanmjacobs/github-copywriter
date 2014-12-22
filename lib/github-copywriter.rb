@@ -19,6 +19,7 @@ class Copywriter
 
     def initialize(username, password)
         # Auth to GitHub
+        Octokit.auto_paginate = true
         @client = Octokit::Client.new(:login => username, :password => password)
 
         # Check if the basic_auth worked.
