@@ -29,7 +29,9 @@ Usage: #{executable_name} [repos...]
     end
 
     opts.on("-y", "--year YEAR", "Update copyrights to a given year.") do |year|
-        if year.to_i >= 1000 && year.to_i <= 9999 then
+        year = year.to_i
+
+        if year >= 1000 && year <= 9999 then
             options[:year] = year
         else
             puts "error: year must be four digits".red
