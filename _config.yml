@@ -1,2 +1,3 @@
-title_tag_text: github-copywriter
-h1_tag_text: github-copywriter
+title: github-copywriter
+tag_text: github-copywriter
+description: github-copywriter scans through your repositories and updates any copyrights it finds.
