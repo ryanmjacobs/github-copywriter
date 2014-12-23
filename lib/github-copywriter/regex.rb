@@ -56,6 +56,9 @@ class Copywriter
                 :copyrights_updated => 0
             }
 
+            # Convert the strings to unicode
+            old_content.encode! "utf-8"
+
             # All teh regex
             prefix = /([Cc]opyright( \([Cc]\)| ©)?|\([Cc]\)|©) /
             suffix = /(\.| |$)/
