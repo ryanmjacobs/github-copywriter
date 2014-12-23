@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
     gem.homepage      = "http://ryanmjacobs.github.io/github-copywriter"
     gem.license       = "MIT"
 
-    gem.files         = `git ls-files -z`.split("\x0")
+    gem.files         = `git ls-files -z`.split("\x0") - %w(test_repo_demo.gif)
     gem.executables   = gem.files.grep(%r{^bin/}) { |f| File.basename(f) }
     gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
     gem.require_paths = ["lib"]
