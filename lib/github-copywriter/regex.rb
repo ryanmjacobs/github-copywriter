@@ -57,7 +57,7 @@ class Copywriter
             }
 
             # Convert the strings to unicode
-            old_content.encode! "utf-8"
+            old_content.force_encoding "utf-8"
 
             # All teh regex
             prefix = /([Cc]opyright( \([Cc]\)| ©)?|\([Cc]\)|©) /
