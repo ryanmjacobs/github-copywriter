@@ -60,7 +60,7 @@ class Copywriter
             old_content.force_encoding "utf-8"
 
             # All teh regex
-            prefix = /([Cc]opyright( \([Cc]\)| ©)?|\([Cc]\)|©) /
+            prefix = /(copyright( \(c\)| ©)?|\(c\)|©) /i
             suffix = /(\.| |$)/
             comma_sep = /((\d{4},|\d{4}-\d{4},)*)/
             regexs = [

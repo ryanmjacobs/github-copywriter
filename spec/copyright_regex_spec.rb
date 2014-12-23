@@ -59,7 +59,15 @@ copyrights = [
     {
        :old => "This is my paragraph. Blah blah blah... Copyright 2001.\nCopyright (C) 2001,2003,2006,2008,2010-2013\n",
        :new => "This is my paragraph. Blah blah blah... Copyright 2014.\nCopyright (C) 2001,2003,2006,2008,2010-2014\n"
-    }
+    },
+
+    # Case-insensitive-ness tests
+    { :old => "COPYRIGHT (C) 2010", :new => "COPYRIGHT (C) 2014" },
+    { :old => "copyright (C) 2010", :new => "copyright (C) 2014" },
+    { :old => "CoPyRiGhT (C) 2010", :new => "CoPyRiGhT (C) 2014" },
+    { :old => "cOpYrIgHt (C) 2010", :new => "cOpYrIgHt (C) 2014" },
+    { :old => "COPYright (C) 2010", :new => "COPYright (C) 2014" },
+    { :old => "copyRIGHT (C) 2010", :new => "copyRIGHT (C) 2014" }
 ]
 
 garbage_text = [
