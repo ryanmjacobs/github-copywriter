@@ -55,6 +55,10 @@ copyrights = [
     {
        :old => "This is my paragraph. Blah blah blah... Copyright 2001.\nCopyright (C) 2001,2003,2006,2008,2010-2013",
        :new => "This is my paragraph. Blah blah blah... Copyright 2014.\nCopyright (C) 2001,2003,2006,2008,2010-2014"
+    },
+    {
+       :old => "This is my paragraph. Blah blah blah... Copyright 2001.\nCopyright (C) 2001,2003,2006,2008,2010-2013\n",
+       :new => "This is my paragraph. Blah blah blah... Copyright 2014.\nCopyright (C) 2001,2003,2006,2008,2010-2014\n"
     }
 ]
 
@@ -82,9 +86,9 @@ describe Copywriter do
             context(copyright[:old]) do
                 updated_copyright = regex.update_copyright(2014, copyright[:old])
 
-                it { expect(updated_copyright[:updated_now])    .to be(true) }
-                it { expect(updated_copyright[:found_copyright]).to be(true) }
-                it { expect(updated_copyright[:content])        .to eq(copyright[:new]) }
+                it { expect(updated_copyright[:content])    .to eq(copyright[:new]) }
+                it { expect(updated_copyright[:copyrights_found])      .to be > 0 }
+                it { expect(updated_copyright[:copyrights_updated])    .to be > 0 }
             end
         end
     end
@@ -95,9 +99,9 @@ describe Copywriter do
             context(copyright[:new]) do
                 updated_copyright = regex.update_copyright(2014, copyright[:new])
 
-                it { expect(updated_copyright[:updated_now])    .to be(false) }
-                it { expect(updated_copyright[:found_copyright]).to be(true) }
                 it { expect(updated_copyright[:content])        .to eq(copyright[:new]) }
+                it { expect(updated_copyright[:copyrights_found])      .to be > 0 }
+                it { expect(updated_copyright[:copyrights_updated])    .to be(0) }
             end
         end
     end
@@ -108,9 +112,9 @@ describe Copywriter do
             context(garbage) do
                 updated_copyright = regex.update_copyright(2014, garbage)
 
-                it { expect(updated_copyright[:updated_now])    .to be(false) }
-                it { expect(updated_copyright[:found_copyright]).to be(false) }
                 it { expect(updated_copyright[:content])        .to eq(garbage) }
+                it { expect(updated_copyright[:copyrights_found])      .to be(0) }
+                it { expect(updated_copyright[:copyrights_updated])    .to be(0) }
             end
         end
     end

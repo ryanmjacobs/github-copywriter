@@ -30,41 +30,37 @@ class Copywriter
         #
         # @param year    [String] Year to update to, e.g. "2024"
         # @param content [String] Text with outdated copyright
-        # @return [Hash] {:new_content, :updated_now, :found_copyright}
+        # @return [Hash] {:new_content, :copyrights_found, :copyrights_updated}
         #
         # Example return hashes:
         # ======================
         #
-        # Input:
-        #   "...Copyright 2014..."
-        # Return:
-        #   {:content => "...Copyright 2014...", :updated_now => false, :found_copyright => true}
-        #
-        # Input:
-        #   "...no copyright here..."
-        # Return:
-        #   {:content => "...no copyright here...", :updated_now => false, :found_copyright => false}
-        #
-        # Input:
+        # Input -- an out-of-date copyright:
         #   "...Copyright 2013..."
         # Return:
-        #   {:content => "...Copyright 2014...", :updated_now => true, :found_copyright => true}
+        #   {:content => "...Copyright 2014...", :copyrights_found => 1, :copyrights_updated => 1}
+        #
+        # Input -- an already up-to-date copyright:
+        #   "...Copyright 2014..."
+        # Return:
+        #   {:content => "...Copyright 2014...", :copyrights_found => 1, :copyrights_updated => 0}
+        #
+        # Input -- no copyright whatsoever:
+        #   "...no copyright here..."
+        # Return:
+        #   {:content => "...no copyright here...", :copyrights_found => 0, :copyrights_updated => 0}
         def update_copyright(year, old_content)
             data = {
                 :content => "",
-                :updated_now => false,
-                :found_copyright => false
+                :copyrights_found => 0,
+                :copyrights_updated => 0
             }
 
-            # I'm truly sorry for anyone trying to decode these regular
-            # expressions. This is the most unreadable regex I have ever
-            # written.
-
+            # All teh regex
             prefix = /([Cc]opyright( \([Cc]\)| ©)?|\([Cc]\)|©) /
             suffix = /(\.| |$)/
             comma_sep = /((\d{4},|\d{4}-\d{4},)*)/
             regexs = [
-
                 # Singular -> (c) 2012 -> (c) 2014
                 # for any year
                 { :regex => /#{prefix}\d{4}#{suffix}/, :replace => "\\1 #{year}\\3" },
@@ -86,21 +82,35 @@ class Copywriter
                 { :regex => /#{prefix}#{comma_sep}((\d{4}-)?\d{4})#{suffix}/, :replace => "\\1 \\3\\5,#{year}\\7" },
             ]
 
-            already_updated = /#{prefix}#{comma_sep}(\d{4}-)?#{year}( |$)/
+            already_updated = /#{prefix}#{comma_sep}(\d{4}-)?#{year}#{suffix}/
+            has_copyright   = /#{prefix}#{comma_sep}(\d{4}-)?\d{4}#{suffix}/
 
-            if (already_updated === old_content) then
-                data[:content] = old_content
-                data[:found_copyright] = true
-                return data
-            end
+            # Loop through each line of the input text
+            old_content.lines.each do |line|
+                # Is there even a copyright? If there isn't, goto the next line.
+                if not (has_copyright === line) then
+                    data[:content] << line
+                    next
+                end
 
-            regexs.each_with_index do |r,num|
-                data[:found_copyright] = true if (r[:regex] === old_content)
-                data[:content] = old_content.gsub(r[:regex], r[:replace])
+                # Are we already updated? If so, goto the next line.
+                if (already_updated === line) then
+                    data[:copyrights_found] += 1
+                    data[:content] << line
+                    next
+                end
 
-                if data[:content] != old_content then
-                    data[:updated_now] = true
-                    return data
+                # Loop through our regex until we get one to work
+                regexs.each do |r|
+                    data[:copyrights_found] += 1 if (r[:regex] === line)
+                    updated_line = line.gsub(r[:regex], r[:replace])
+
+                    # Did the regex update the copyright? If so, goto the next line.
+                    if updated_line != line then
+                        data[:content] << updated_line
+                        data[:copyrights_updated] += 1
+                        break
+                    end
                 end
             end
 
