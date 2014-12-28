@@ -1,4 +1,6 @@
 # github-copywriter
+
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ryanmjacobs/github-copywriter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/ryanmjacobs/github-copywriter.svg?branch=master)](https://travis-ci.org/ryanmjacobs/github-copywriter)
 [![Gem Version](https://badge.fury.io/rb/github-copywriter.svg)](http://badge.fury.io/rb/github-copywriter)
 
