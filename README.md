@@ -4,33 +4,14 @@
 
 ![test-repo demo](https://raw.githubusercontent.com/ryanmjacobs/github-copywriter/master/test_repo_demo.gif)
 
-**See the example commit [here](//github.com/ryanmjacobs/test-repo/commit/7b095e65adf4cedcd7891326ec32c5f526838dd5). See the pretty website [here](//ryanmjacobs.github.io/github-copywriter).**
-
-**Wanna see something a little more...
-[complex](https://github.com/ryanmjacobs/test-repo/commit/7fbc410ce1171a2e858972b1c7cfed32b86d98e2)?**
+**See the above commit [here](//github.com/ryanmjacobs/test-repo/commit/7b095e65adf4cedcd7891326ec32c5f526838dd5). Or, see a more complex example [here](https://github.com/ryanmjacobs/test-repo/commit/7fbc410ce1171a2e858972b1c7cfed32b86d98e2).**
 
 ## Updates your copyrights... so you don't have to!
 
-### `$ gem install github-copywriter`
-
-## Basic Usage
-
-### Update specific repos
-`$ github-copywriter MyCoolRepo MyOtherCoolRepo`
-
-### Update all repos
-`$ github-copywriter --all`
-
-## More Usage
-
-### Update all repos, excluding forks
-`$ github-copywriter --all --skip-forks`
-
-### Update all repos to 2015
-`$ github-copywriter --all --year 2015`
-
-### Update only branches: gh-pages and dev
-`$ github-copywriter --branches gh-pages,dev MyRepo`
+```
+$ gem install github-copywriter
+```
+Checkout usage information [here](//ryanmjacobs.github.io/github-copywriter)!
 
 ## Contributing
 Please submit issues or feature requests [here](//github.com/ryanmjacobs/github-copywriter/issues).
