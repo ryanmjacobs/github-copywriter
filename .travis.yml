@@ -1,6 +1,8 @@
 language: ruby
 rvm:
-    - 2.3.0
-    - 2.1.5
-    - 2.1.0
-    - 1.9.2
+    # Ruby versions from: https://www.ruby-lang.org/en/downloads/
+    # Viewed on January 12, 2016
+
+    - 2.3.0 # Current Stable
+    - 2.2.4 # Previous Stable
+    - 2.1.8 # Old Stable
