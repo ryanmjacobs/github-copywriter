@@ -12,6 +12,9 @@ Updates your copyrights... so you don't have to!
 ### Update all repos
 `$ github-copywriter --all`
 
+### Do a dry-run
+`$ github-copywriter --all --dry-run`
+
 ---
 
 ## More Usage
