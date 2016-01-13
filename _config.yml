@@ -1,3 +1,4 @@
 title: github-copywriter
-tag_text: github-copywriter v1.2.4
+tag_text: github-copywriter
+version: v1.2.4
 description: github-copywriter scans through your repositories and updates any copyrights it finds.
