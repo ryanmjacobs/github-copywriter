@@ -43,12 +43,17 @@ Usage: #{executable_name} [repos...]
         options[:skip_forks] = true
     end
 
+    opts.on("-n", "--dry-run", "Don't actually write to any repos.") do
+        options[:dry_run] = true
+    end
+
     opts.on("-b", "--branches branch1,branch2", "Update specific branches only.") do |comma_separated_branches|
         options[:branches] = comma_separated_branches.split(",").map(&:strip)
     end
 
     opts.on_tail("-h","--help", "Show this message.") do
         puts opts
+        puts ""
         exit
     end
 

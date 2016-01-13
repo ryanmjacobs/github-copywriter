@@ -41,6 +41,7 @@ class Copywriter
         options = {
             all_repos: false,
             skip_forks: false,
+            dry_run: false,
             year: nil,
             branches: nil
         }.merge(options)
@@ -139,8 +140,10 @@ class Copywriter
                     else
                         print "    Committing #{@modified_files.size} files..."
                     end
+
                     commit_files(repo_name, ref, "100644", @modified_files, COMMIT_MSG)
-                    puts " done!"
+
+                    puts " done! #{options[:dry_run] ? '(dry run)' : ''}"
                 else
                     puts "    No files needed to be commited."
                 end
