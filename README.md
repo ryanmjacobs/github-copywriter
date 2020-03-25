@@ -29,7 +29,7 @@ Feel free to [fork](//github.com/ryanmjacobs/github-copywriter/fork) this projec
 ## Under the hood
 All GitHub API calls are made with [Octokit](//github.com/octokit/octokit.rb).
 
-####Basic breakdown of the program's logic:
+#### Basic breakdown of the program's logic:
 1. Authenticate to GitHub.
 2. Loop through each user repo given, and:
     * Update copyrights on files: `README.md`, `LICENSE`, etc.
